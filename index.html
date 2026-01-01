@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="hidden sm:flex items-center space-x-4">
-                    <span class="text-sm text-gray-600">80+ Calculators</span>
+                    <span class="text-sm text-gray-600" id="calculatorsCount"></span>
                 </div>
             </div>
         </div>
@@ -284,7 +284,7 @@
             { id: 'lumpsum', name: 'Lumpsum Investment Calculator', category: 'equity', icon: '💼', description: 'One-time investment calculator' },
             { id: 'swp', name: 'SWP Calculator', category: 'equity', icon: '🔽', description: 'Systematic Withdrawal Plan' },
             { id: 'stp', name: 'STP Calculator', category: 'equity', icon: '🔀', description: 'Systematic Transfer Plan' },
-            { id: 'mf-return', name: 'Mutual Fund Return Calculator', category: 'equity', icon: '📉', description: 'Calculate MF returns' },
+            { id: 'mf-return', name: 'Mutual Fund Return Calculator', category: ['equity', 'new'], icon: '📉', description: 'Calculate MF returns' },
             
             // Loans & Credit
             { id: 'emi', name: 'EMI Calculator', category: 'loans', icon: '🏠', description: 'Calculate loan EMI' },
@@ -347,10 +347,23 @@
             { id: 'silver', name: 'Silver Investment Calculator', category: 'utility', icon: '🥈', description: 'Silver investment returns' }
         ];
 
+
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            loadCalculatorsCount();
             loadCalculators();
         });
+
+        function loadCalculatorsCount(){
+            const calculatorsCountSpan = document.querySelector('#calculatorsCount');
+            let calculatorsCount = calculators.length;
+            if(calculators.length > 5){
+                const calculatorsCountDivision = calculators.length / 5;
+                calculatorsCount = Math.floor(calculatorsCountDivision) * 5
+            }
+            calculatorsCountSpan.innerText =  `${calculatorsCount}+ Calculators`
+        }
 
         function loadCalculators(filter = 'all', search = '') {
             const grid = document.getElementById('calculatorGrid');
