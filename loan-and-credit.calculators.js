@@ -482,12 +482,12 @@ function calculatePrepayment() {
     document.getElementById('prepayResult').classList.remove('hidden');
 }
 
-function loadBalanceTransferCalculator(){
+function loadBalanceTransferCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadCreditCardInterestCalculator(){
+function loadCreditCardInterestCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadAmortizationScheduleCalculator(){
+function loadAmortizationScheduleCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

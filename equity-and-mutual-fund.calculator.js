@@ -511,34 +511,34 @@ function calculateSIP() {
     document.getElementById('sipResult').classList.remove('hidden');
 }
 
-function loadXIRRCalculator(){
+function loadXIRRCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadBreakEvenCalculator(){
+function loadBreakEvenCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadPositionSizeCalculator(){
+function loadPositionSizeCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadRiskRewardCalculator(){
+function loadRiskRewardCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadDividendYieldCalculator(){
+function loadDividendYieldCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
 
-function loadStepUpSIPCalculator(){
+function loadStepUpSIPCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadLumpsumInvestmentCalculator(){
+function loadLumpsumInvestmentCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadSWPCalculator(){
+function loadSWPCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadSTPCalculator(){
+function loadSTPCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadMutualFundReturnCalculator(){
+function loadMutualFundReturnCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

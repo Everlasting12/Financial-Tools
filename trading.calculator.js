@@ -1,18 +1,18 @@
-function loadOptionProfitCalculator(){
+function loadOptionProfitCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadMarginCalculator(){
+function loadMarginCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadBrokerageCalculator(){
+function loadBrokerageCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadStopLossCalculator(){
+function loadStopLossCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadTrailingStopCalculator(){
+function loadTrailingStopCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadFuturesPLCalculator(){
+function loadFuturesPLCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

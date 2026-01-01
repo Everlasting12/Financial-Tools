@@ -1,16 +1,16 @@
 
-function loadCapitalGainsTaxCalculator(){
+function loadCapitalGainsTaxCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadHRACalculator(){
+function loadHRACalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadGratuityTaxCalculator(){
+function loadGratuityTaxCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadTDSCalculator(){
+function loadTDSCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadAdvanceTaxCalculator(){
+function loadAdvanceTaxCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

@@ -1,18 +1,18 @@
-function loadRetirementCorpusCalculator(){
+function loadRetirementCorpusCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadRetirementSIPPlannerCalculator(){
+function loadRetirementSIPPlannerCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadPensionCalculator(){
+function loadPensionCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadLifeInsuranceCoverageCalculator(){
+function loadLifeInsuranceCoverageCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadChildEducationPlannerCalculator(){
+function loadChildEducationPlannerCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadMarriageGoalPlannerCalculator(){
+function loadMarriageGoalPlannerCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

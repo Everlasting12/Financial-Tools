@@ -1,15 +1,15 @@
-function loadNetWorthCalculator(){
+function loadNetWorthCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadCashFlowCalculator(){
+function loadCashFlowCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadROICalculator(){
+function loadROICalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadBusinessBreakevenCalculator(){
+function loadBusinessBreakevenCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadWorkingCapitalCalculator(){
+function loadWorkingCapitalCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

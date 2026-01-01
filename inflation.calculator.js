@@ -1,12 +1,12 @@
-function loadInflationCalculator(){
+function loadInflationCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadFutureValueCalculator(){
+function loadFutureValueCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadRealReturnCalculator(){
+function loadRealReturnCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadCostOfDelayCalculator(){
+function loadCostOfDelayCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }

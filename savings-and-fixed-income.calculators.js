@@ -533,12 +533,12 @@ function calculateNPS() {
 
 }
 
-function loadEPFCalculator(){
+function loadEPFCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadPostOfficeSchemeCalculator(){
+function loadPostOfficeSchemeCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadSavingsAccountInterestCalculator(){
+function loadSavingsAccountInterestCalculator(container){
     container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
 }
