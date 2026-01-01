@@ -193,11 +193,7 @@
         font-size: 13px;
       }
     </style>
-    <script src="./equity-and-mutual-fund.calculator.js" defer></script>
-    <script src="./loan-and-credit.calculators.js" defer></script>
-    <!-- <script src="./savings-and-fixed-income.calculators.js" defer></script> -->
-
-    <script type="application/ld+json">
+     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -213,6 +209,16 @@
         }
       }
     </script>
+
+    <script src="./equity-and-mutual-fund.calculator.js" defer></script>
+    <script src="./loan-and-credit.calculators.js" defer></script>
+    <script src="./savings-and-fixed-income.calculators.js" defer></script>
+    <script src="./business.calculator.js" defer></script>
+    <script src="./inflation.calculator.js" defer></script>
+    <script src="./retirement-planning.calculator.js" defer></script>
+    <script src="./taxation.calculator.js" defer></script>
+    <script src="./trading.calculator.js" defer></script>
+    <script src="./utility.calculator.js" defer></script>
   </head>
   <body class="bg-gray-50">
     <!-- Header -->
@@ -448,7 +454,7 @@
             ></h2>
             <button
               onclick="closeModal()"
-              class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-all"
+              class="text-white hover:bg-white hover:bg-black/10 p-2 rounded-lg transition-all"
             >
               <svg
                 class="w-6 h-6"
@@ -488,17 +494,6 @@
         </div>
       </div>
     </footer>
-
-    <!-- JavaScript Files
-    <script src="equity-calculators.js"></script>
-    <script src="loan-calculators.js"></script>
-    <script src="savings-calculators.js"></script>
-    <script src="retirement-calculators.js"></script>
-    <script src="tax-calculators.js"></script>
-    <script src="trading-calculators.js"></script>
-    <script src="business-calculators.js"></script>
-    <script src="utility-calculators.js"></script> -->
-
     <script>
       // Calculator Database
       const calculators = [
