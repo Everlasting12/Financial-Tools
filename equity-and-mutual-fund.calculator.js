@@ -510,3 +510,35 @@ function calculateSIP() {
     
     document.getElementById('sipResult').classList.remove('hidden');
 }
+
+function loadXIRRCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadBreakEvenCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadPositionSizeCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadRiskRewardCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadDividendYieldCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+
+function loadStepUpSIPCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadLumpsumInvestmentCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadSWPCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadSTPCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadMutualFundReturnCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}

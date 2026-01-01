@@ -529,4 +529,16 @@ function calculateNPS() {
     
     // Future Value calculation
     const corpus = monthlyContribution * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
-    const wealth = corpus - totalIn
+    const wealth = corpus - totalInvested
+
+}
+
+function loadEPFCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadPostOfficeSchemeCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadSavingsAccountInterestCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}

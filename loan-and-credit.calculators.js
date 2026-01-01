@@ -481,3 +481,13 @@ function calculatePrepayment() {
     
     document.getElementById('prepayResult').classList.remove('hidden');
 }
+
+function loadBalanceTransferCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadCreditCardInterestCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadAmortizationScheduleCalculator(){
+    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+}
