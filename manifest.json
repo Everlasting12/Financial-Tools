@@ -1,6 +1,6 @@
 {
-  "name": "FinCalc Pro",
-  "short_name": "FinCalc",
+  "name": "Finverra Pro",
+  "short_name": "Finverra",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
