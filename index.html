@@ -1,260 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Calculators Suite | SIP, EMI, Stock, Loan & Investment Tools</title>
-    <meta name="description" content="Free financial calculators for SIP, EMI, stock average, profit & loss, loans, investments and complete financial planning." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Financial Calculators Suite | SIP, EMI, Stock, Loan & Investment Tools
+    </title>
     <meta
-        name="keywords"
-        content="financial calculator, sip calculator, emi calculator, stock average calculator, loan calculator, investment calculator, profit loss calculator, financial planning tools"
+      name="description"
+      content="Free financial calculators for SIP, EMI, stock average, profit & loss, loans, investments and complete financial planning."
     />
-    
+    <meta
+      name="keywords"
+      content="financial calculator, sip calculator, emi calculator, stock average calculator, loan calculator, investment calculator, profit loss calculator, financial planning tools"
+    />
+
     <meta name="author" content="Sidhesh Parab" />
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Financial Calculators Suite | Smart Money Tools" />
     <meta
-        property="og:description"
-        content="Calculate SIP returns, EMI, stock averages, profits, loans & investments using free financial tools."
-    />   
-    
+      property="og:title"
+      content="Financial Calculators Suite | Smart Money Tools"
+    />
+    <meta
+      property="og:description"
+      content="Calculate SIP returns, EMI, stock averages, profits, loans & investments using free financial tools."
+    />
+
     <!-- Theme Color (Mobile browsers) -->
     <meta name="theme-color" content="#667eea" />
+    <!-- PWA manifest & iOS support -->
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
     />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./tailwindcss.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      .calculator-card {
+        transition: all 0.3s ease;
+      }
+
+      .calculator-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-field {
+        transition: all 0.2s ease;
+      }
+
+      .input-field:focus {
+        transform: translateY(-1px);
+      }
+
+      .result-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .profit-bg {
+        background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+      }
+
+      .loss-bg {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      }
+
+      .category-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        
-        .calculator-card {
-            transition: all 0.3s ease;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .calculator-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      .error-message {
+        animation: shake 0.3s ease-in-out;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
         }
-        
-        .input-group {
-            position: relative;
+        25% {
+          transform: translateX(-5px);
         }
-        
-        .input-field {
-            transition: all 0.2s ease;
+        75% {
+          transform: translateX(5px);
         }
-        
-        .input-field:focus {
-            transform: translateY(-1px);
-        }
-        
-        .result-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .profit-bg {
-            background: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%);
-        }
-        
-        .loss-bg {
-            background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
-        }
-        
-        .category-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .error-message {
-            animation: shake 0.3s ease-in-out;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .tab-button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      /* iOS install popup (top-right) */
+      .ios-popup {
+        position: absolute;
+        top: 64px;
+        right: 16px;
+        width: 280px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+        transform-origin: top right;
+        transform: translate(10px, -8px) scale(0.98);
+        opacity: 0;
+        transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 200ms ease;
+        pointer-events: none;
+        z-index: 60;
+      }
+
+      .ios-popup.show {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .ios-popup.hide {
+        transform: translate(10px, -8px) scale(0.98);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* caret/arrow */
+      .ios-popup::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        right: 22px;
+        width: 12px;
+        height: 12px;
+        background: #ffffff;
+        transform: rotate(45deg);
+        box-shadow: -2px -2px 6px rgba(16, 24, 40, 0.04);
+      }
+
+      .ios-popup .title {
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 6px;
+      }
+      .ios-popup .desc {
+        color: #4b5563;
+        font-size: 13px;
+      }
     </style>
     <script src="./equity-and-mutual-fund.calculator.js" defer></script>
     <script src="./loan-and-credit.calculators.js" defer></script>
     <!-- <script src="./savings-and-fixed-income.calculators.js" defer></script> -->
-    
 
-     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            "name": "Financial Calculator Suite",
-            "url": "https://www.yourdomain.com/financial-calculators",
-            "applicationCategory": "FinanceApplication",
-            "operatingSystem": "All",
-            "description": "A suite of financial calculators including SIP, EMI, stock average, loan and investment tools.",
-            "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "INR"
-            }
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Financial Calculator Suite",
+        "url": "https://www.yourdomain.com/financial-calculators",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "description": "A suite of financial calculators including SIP, EMI, stock average, loan and investment tools.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
         }
+      }
     </script>
-</head>
-<body class="bg-gray-50">
+  </head>
+  <body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-2 rounded-lg">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-bold text-gray-900">FinCalc Pro</h1>
-                        <p class="text-xs sm:text-sm text-gray-500">Complete Financial Planning Suite</p>
-                    </div>
-                </div>
-                <div class="hidden sm:flex items-center space-x-4">
-                    <span class="text-sm text-gray-600" id="calculatorsCount"></span>
-                </div>
+    <header class="bg-white shadow-sm sticky top-0 z-50 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div
+              class="bg-gradient-to-r from-purple-600 to-indigo-600 p-2 rounded-lg"
+            >
+              <svg
+                class="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                ></path>
+              </svg>
             </div>
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
+                FinCalc Pro
+              </h1>
+              <p class="text-xs sm:text-sm text-gray-500">
+                Complete Financial Planning Suite
+              </p>
+            </div>
+          </div>
+          <div class="hidden sm:flex items-center space-x-4">
+            <span class="text-sm text-gray-600" id="calculatorsCount"></span>
+          </div>
+
+          <div class="md:hidden flex items-center space-x-3">
+            <button
+              id="installBtn"
+              class="hidden inline-flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-100 text-white text-sm hover:opacity-90 transition-all"
+            >
+              <!-- bg-gradient-to-r from-purple-600 to-indigo-600  -->
+              <span class="text-lg">📲</span>
+            </button>
+            <div
+              id="iosInstructions"
+              class="ios-popup hidden"
+              aria-hidden="true"
+            >
+              <div class="title">Install on iOS</div>
+              <div class="desc">
+                Tap the Share button in Safari, then choose
+                <strong>Add to Home Screen</strong>.
+              </div>
+            </div>
+            <div
+              id="androidInstructions"
+              class="ios-popup hidden"
+              aria-hidden="true"
+            >
+              <div class="title">Install on Android</div>
+              <div class="desc">
+                If the browser didn't show an install prompt, open the Chrome
+                menu (⋮) and tap <strong>Install app</strong> or
+                <strong>Add to Home screen</strong>.
+              </div>
+              <div
+                style="
+                  margin-top: 8px;
+                  display: flex;
+                  gap: 8px;
+                  justify-content: flex-end;
+                "
+              >
+                <button
+                  id="androidRetry"
+                  class="px-3 py-1 text-sm rounded bg-gray-100"
+                >
+                  Try again
+                </button>
+                <button
+                  id="androidClose"
+                  class="px-3 py-1 text-sm rounded bg-gray-50"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </header>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Category Navigation -->
-        <div class="mb-8">
-            <div class="bg-white rounded-xl shadow-sm p-4 overflow-x-auto">
-                <div class="flex space-x-2 min-w-max">
-                    <button onclick="filterCategory('all')" class="tab-button active px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap">
-                        All Tools
-                    </button>
-                    <button onclick="filterCategory('equity')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Equity & MF
-                    </button>
-                    <button onclick="filterCategory('loans')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Loans & Credit
-                    </button>
-                    <button onclick="filterCategory('savings')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Savings & FD
-                    </button>
-                    <button onclick="filterCategory('retirement')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Retirement
-                    </button>
-                    <button onclick="filterCategory('tax')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Taxation
-                    </button>
-                    <button onclick="filterCategory('trading')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Trading
-                    </button>
-                    <button onclick="filterCategory('business')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Business
-                    </button>
-                    <button onclick="filterCategory('utility')" class="tab-button px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap">
-                        Utility
-                    </button>
-                </div>
-            </div>
+      <!-- Category Navigation -->
+      <div class="mb-8">
+        <div
+          class="bg-white -mx-4 md:m-0 md:rounded-full px-4 md:px-2 py-2 overflow-x-auto"
+        >
+          <div class="flex space-x-2 min-w-max">
+            <button
+              onclick="filterCategory('all')"
+              class="tab-button active px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap"
+            >
+              All Tools
+            </button>
+            <button
+              onclick="filterCategory('equity')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Equity & MF
+            </button>
+            <button
+              onclick="filterCategory('loans')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Loans & Credit
+            </button>
+            <button
+              onclick="filterCategory('savings')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Savings & FD
+            </button>
+            <button
+              onclick="filterCategory('retirement')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Retirement
+            </button>
+            <button
+              onclick="filterCategory('tax')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Taxation
+            </button>
+            <button
+              onclick="filterCategory('trading')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Trading
+            </button>
+            <button
+              onclick="filterCategory('business')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Business
+            </button>
+            <button
+              onclick="filterCategory('utility')"
+              class="tab-button px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Utility
+            </button>
+          </div>
         </div>
+      </div>
 
-        <!-- Search Bar -->
-        <div class="mb-8">
-            <div class="relative">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="Search calculators (e.g., EMI, SIP, Tax)..." 
-                    class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    oninput="searchCalculators(this.value)"
-                >
-                <svg class="w-5 h-5 text-gray-400 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
+      <!-- Search Bar -->
+      <div class="mb-8">
+        <div class="relative">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search calculators (e.g., EMI, SIP, Tax)..."
+            class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+            oninput="searchCalculators(this.value)"
+          />
+          <svg
+            class="w-5 h-5 text-gray-400 absolute left-4 top-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
         </div>
+      </div>
 
-        <!-- Calculator Grid -->
-        <div id="calculatorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            <!-- Calculators will be dynamically loaded here -->
-        </div>
+      <!-- Calculator Grid -->
+      <div
+        id="calculatorGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
+      >
+        <!-- Calculators will be dynamically loaded here -->
+      </div>
 
-        <!-- No Results Message -->
-        <div id="noResults" class="hidden text-center py-12">
-            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <p class="text-gray-500 text-lg">No calculators found</p>
-            <p class="text-gray-400 text-sm mt-2">Try adjusting your search or filter</p>
-        </div>
+      <!-- No Results Message -->
+      <div id="noResults" class="hidden text-center py-12">
+        <svg
+          class="w-16 h-16 text-gray-300 mx-auto mb-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <p class="text-gray-500 text-lg">No calculators found</p>
+        <p class="text-gray-400 text-sm mt-2">
+          Try adjusting your search or filter
+        </p>
+      </div>
     </main>
 
     <!-- Calculator Modal -->
-    <div id="calculatorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-        <div class="min-h-screen px-4 flex items-center justify-center py-8">
-            <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-auto animate-fade-in">
-                <!-- Modal Header -->
-                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4 rounded-t-2xl flex items-center justify-between">
-                    <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white"></h2>
-                    <button onclick="closeModal()" class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-all">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Modal Body -->
-                <div id="modalBody" class="p-6 sm:p-8">
-                    <!-- Calculator content will be loaded here -->
-                </div>
-            </div>
+    <div
+      id="calculatorModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
+    >
+      <div class="min-h-screen px-4 flex items-center justify-center py-8">
+        <div
+          class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-auto animate-fade-in"
+        >
+          <!-- Modal Header -->
+          <div
+            class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4 rounded-t-2xl flex items-center justify-between"
+          >
+            <h2
+              id="modalTitle"
+              class="text-xl sm:text-2xl font-bold text-white"
+            ></h2>
+            <button
+              onclick="closeModal()"
+              class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-all"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div id="modalBody" class="p-6 sm:p-8">
+            <!-- Calculator content will be loaded here -->
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center">
-                <p class="text-gray-600 text-sm">All calculators are for informational purposes only.</p>
-                <p class="text-gray-500 text-xs mt-2">Always consult with a financial advisor for personalized advice. - Sidhesh Parab</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+          <p class="text-gray-600 text-sm">
+            All calculators are for informational purposes only.
+          </p>
+          <p class="text-gray-500 text-xs mt-2">
+            Always consult with a financial advisor for personalized advice. -
+            Sidhesh Parab
+          </p>
         </div>
+      </div>
     </footer>
 
     <!-- JavaScript Files
@@ -266,131 +498,481 @@
     <script src="trading-calculators.js"></script>
     <script src="business-calculators.js"></script>
     <script src="utility-calculators.js"></script> -->
-    
+
     <script>
-        // Calculator Database
-        const calculators = [
-            // Equity & Mutual Funds
-            { id: 'stock-average', name: 'Stock Average Calculator', category: 'equity', icon: '📊', description: 'Calculate average buying price' },
-            { id: 'profit-loss', name: 'Profit/Loss Calculator', category: 'equity', icon: '💰', description: 'Calculate investment returns' },
-            { id: 'cagr', name: 'CAGR Calculator', category: 'equity', icon: '📈', description: 'Compound Annual Growth Rate' },
-            { id: 'xirr', name: 'XIRR Calculator', category: 'equity', icon: '💹', description: 'Extended Internal Rate of Return' },
-            { id: 'breakeven', name: 'Break-even Calculator', category: 'equity', icon: '⚖️', description: 'Find your breakeven point' },
-            { id: 'position-size', name: 'Position Size Calculator', category: 'equity', icon: '📏', description: 'Calculate optimal position size' },
-            { id: 'risk-reward', name: 'Risk-Reward Calculator', category: 'equity', icon: '🎯', description: 'Analyze risk vs reward' },
-            { id: 'dividend-yield', name: 'Dividend Yield Calculator', category: 'equity', icon: '💵', description: 'Calculate dividend returns' },
-            { id: 'sip', name: 'SIP Calculator', category: 'equity', icon: '🔄', description: 'Systematic Investment Plan' },
-            { id: 'step-up-sip', name: 'Step-Up SIP Calculator', category: 'equity', icon: '📊', description: 'Increasing SIP calculator' },
-            { id: 'lumpsum', name: 'Lumpsum Investment Calculator', category: 'equity', icon: '💼', description: 'One-time investment calculator' },
-            { id: 'swp', name: 'SWP Calculator', category: 'equity', icon: '🔽', description: 'Systematic Withdrawal Plan' },
-            { id: 'stp', name: 'STP Calculator', category: 'equity', icon: '🔀', description: 'Systematic Transfer Plan' },
-            { id: 'mf-return', name: 'Mutual Fund Return Calculator', category: ['equity', 'new'], icon: '📉', description: 'Calculate MF returns' },
-            
-            // Loans & Credit
-            { id: 'emi', name: 'EMI Calculator', category: 'loans', icon: '🏠', description: 'Calculate loan EMI' },
-            { id: 'loan-eligibility', name: 'Loan Eligibility Calculator', category: 'loans', icon: '✅', description: 'Check loan eligibility' },
-            { id: 'prepayment', name: 'Loan Prepayment Calculator', category: 'loans', icon: '⏩', description: 'Calculate prepayment savings' },
-            { id: 'balance-transfer', name: 'Balance Transfer Calculator', category: 'loans', icon: '🔄', description: 'Compare loan transfers' },
-            { id: 'credit-card', name: 'Credit Card Interest Calculator', category: 'loans', icon: '💳', description: 'Calculate credit card interest' },
-            { id: 'amortization', name: 'Amortization Schedule', category: 'loans', icon: '📅', description: 'Detailed payment schedule' },
-            
-            // Savings & Fixed Income
-            { id: 'fd', name: 'FD Calculator', category: 'savings', icon: '🏦', description: 'Fixed Deposit calculator' },
-            { id: 'rd', name: 'RD Calculator', category: 'savings', icon: '💰', description: 'Recurring Deposit calculator' },
-            { id: 'ppf', name: 'PPF Calculator', category: 'savings', icon: '🔐', description: 'Public Provident Fund' },
-            { id: 'epf', name: 'EPF Calculator', category: 'savings', icon: '👔', description: 'Employee Provident Fund' },
-            { id: 'nps', name: 'NPS Calculator', category: 'savings', icon: '🏛️', description: 'National Pension Scheme' },
-            { id: 'post-office', name: 'Post Office Scheme Calculator', category: 'savings', icon: '📮', description: 'Post office schemes' },
-            { id: 'savings-account', name: 'Savings Account Interest', category: 'savings', icon: '💵', description: 'Savings interest calculator' },
-            
-            // Retirement Planning
-            { id: 'retirement-corpus', name: 'Retirement Corpus Calculator', category: 'retirement', icon: '🌴', description: 'Plan retirement corpus' },
-            { id: 'retirement-sip', name: 'Retirement SIP Planner', category: 'retirement', icon: '📊', description: 'SIP for retirement' },
-            { id: 'pension', name: 'Pension Calculator', category: 'retirement', icon: '👴', description: 'Calculate pension amount' },
-            { id: 'life-insurance', name: 'Life Insurance Coverage', category: 'retirement', icon: '🛡️', description: 'Required insurance cover' },
-            { id: 'child-education', name: 'Child Education Planner', category: 'retirement', icon: '🎓', description: 'Plan education expenses' },
-            { id: 'marriage-goal', name: 'Marriage Goal Planner', category: 'retirement', icon: '💍', description: 'Plan marriage expenses' },
-            
-            // Taxation
-            { id: 'income-tax', name: 'Income Tax Calculator', category: 'tax', icon: '📝', description: 'Old vs New regime' },
-            { id: 'capital-gains', name: 'Capital Gains Tax', category: 'tax', icon: '💹', description: 'LTCG & STCG calculator' },
-            { id: 'hra', name: 'HRA Calculator', category: 'tax', icon: '🏢', description: 'House Rent Allowance' },
-            { id: 'gratuity', name: 'Gratuity Calculator', category: 'tax', icon: '🎁', description: 'Calculate gratuity amount' },
-            { id: 'tds', name: 'TDS Calculator', category: 'tax', icon: '📊', description: 'Tax Deducted at Source' },
-            { id: 'advance-tax', name: 'Advance Tax Calculator', category: 'tax', icon: '⏰', description: 'Calculate advance tax' },
-            
-            // Inflation
-            { id: 'inflation', name: 'Inflation Calculator', category: 'tax', icon: '📉', description: 'Calculate inflation impact' },
-            { id: 'future-value', name: 'Future Value Calculator', category: 'tax', icon: '🔮', description: 'Future value of money' },
-            { id: 'real-return', name: 'Real Rate of Return', category: 'tax', icon: '📊', description: 'Inflation-adjusted returns' },
-            { id: 'cost-delay', name: 'Cost of Delay Calculator', category: 'tax', icon: '⏳', description: 'Delayed investment cost' },
-            
-            // Trading
-            { id: 'option-profit', name: 'Option Profit Calculator', category: 'trading', icon: '📈', description: 'Options P&L calculator' },
-            { id: 'margin', name: 'Margin Calculator', category: 'trading', icon: '💼', description: 'Calculate margin required' },
-            { id: 'brokerage', name: 'Brokerage Calculator', category: 'trading', icon: '💸', description: 'Calculate trading charges' },
-            { id: 'stop-loss', name: 'Stop Loss Calculator', category: 'trading', icon: '🛑', description: 'Set stop loss levels' },
-            { id: 'trailing-stop', name: 'Trailing Stop Loss', category: 'trading', icon: '📉', description: 'Trailing stop calculator' },
-            { id: 'futures-pl', name: 'Futures P/L Calculator', category: 'trading', icon: '📊', description: 'Futures profit/loss' },
-            
-            // Business
-            { id: 'net-worth', name: 'Net Worth Calculator', category: 'business', icon: '💎', description: 'Calculate net worth' },
-            { id: 'cash-flow', name: 'Cash Flow Calculator', category: 'business', icon: '💵', description: 'Track cash flow' },
-            { id: 'roi', name: 'ROI Calculator', category: 'business', icon: '📊', description: 'Return on Investment' },
-            { id: 'business-breakeven', name: 'Business Break-Even', category: 'business', icon: '⚖️', description: 'Business breakeven point' },
-            { id: 'working-capital', name: 'Working Capital Calculator', category: 'business', icon: '💰', description: 'Calculate working capital' },
-            
-            // Utility
-            { id: 'currency', name: 'Currency Converter', category: 'utility', icon: '💱', description: 'Convert currencies' },
-            { id: 'crypto', name: 'Crypto Investment Calculator', category: 'utility', icon: '₿', description: 'Cryptocurrency calculator' },
-            { id: 'gold', name: 'Gold Investment Calculator', category: 'utility', icon: '🥇', description: 'Gold investment returns' },
-            { id: 'silver', name: 'Silver Investment Calculator', category: 'utility', icon: '🥈', description: 'Silver investment returns' }
-        ];
+      // Calculator Database
+      const calculators = [
+        // Equity & Mutual Funds
+        {
+          id: "stock-average",
+          name: "Stock Average Calculator",
+          category: "equity",
+          icon: "📊",
+          description: "Calculate average buying price",
+        },
+        {
+          id: "profit-loss",
+          name: "Profit/Loss Calculator",
+          category: "equity",
+          icon: "💰",
+          description: "Calculate investment returns",
+        },
+        {
+          id: "cagr",
+          name: "CAGR Calculator",
+          category: "equity",
+          icon: "📈",
+          description: "Compound Annual Growth Rate",
+        },
+        {
+          id: "xirr",
+          name: "XIRR Calculator",
+          category: "equity",
+          icon: "💹",
+          description: "Extended Internal Rate of Return",
+        },
+        {
+          id: "breakeven",
+          name: "Break-even Calculator",
+          category: "equity",
+          icon: "⚖️",
+          description: "Find your breakeven point",
+        },
+        {
+          id: "position-size",
+          name: "Position Size Calculator",
+          category: "equity",
+          icon: "📏",
+          description: "Calculate optimal position size",
+        },
+        {
+          id: "risk-reward",
+          name: "Risk-Reward Calculator",
+          category: "equity",
+          icon: "🎯",
+          description: "Analyze risk vs reward",
+        },
+        {
+          id: "dividend-yield",
+          name: "Dividend Yield Calculator",
+          category: "equity",
+          icon: "💵",
+          description: "Calculate dividend returns",
+        },
+        {
+          id: "sip",
+          name: "SIP Calculator",
+          category: "equity",
+          icon: "🔄",
+          description: "Systematic Investment Plan",
+        },
+        {
+          id: "step-up-sip",
+          name: "Step-Up SIP Calculator",
+          category: "equity",
+          icon: "📊",
+          description: "Increasing SIP calculator",
+        },
+        {
+          id: "lumpsum",
+          name: "Lumpsum Investment Calculator",
+          category: "equity",
+          icon: "💼",
+          description: "One-time investment calculator",
+        },
+        {
+          id: "swp",
+          name: "SWP Calculator",
+          category: "equity",
+          icon: "🔽",
+          description: "Systematic Withdrawal Plan",
+        },
+        {
+          id: "stp",
+          name: "STP Calculator",
+          category: "equity",
+          icon: "🔀",
+          description: "Systematic Transfer Plan",
+        },
+        {
+          id: "mf-return",
+          name: "Mutual Fund Return Calculator",
+          category: ["equity", "new"],
+          icon: "📉",
+          description: "Calculate MF returns",
+        },
 
+        // Loans & Credit
+        {
+          id: "emi",
+          name: "EMI Calculator",
+          category: "loans",
+          icon: "🏠",
+          description: "Calculate loan EMI",
+        },
+        {
+          id: "loan-eligibility",
+          name: "Loan Eligibility Calculator",
+          category: "loans",
+          icon: "✅",
+          description: "Check loan eligibility",
+        },
+        {
+          id: "prepayment",
+          name: "Loan Prepayment Calculator",
+          category: "loans",
+          icon: "⏩",
+          description: "Calculate prepayment savings",
+        },
+        {
+          id: "balance-transfer",
+          name: "Balance Transfer Calculator",
+          category: "loans",
+          icon: "🔄",
+          description: "Compare loan transfers",
+        },
+        {
+          id: "credit-card",
+          name: "Credit Card Interest Calculator",
+          category: "loans",
+          icon: "💳",
+          description: "Calculate credit card interest",
+        },
+        {
+          id: "amortization",
+          name: "Amortization Schedule",
+          category: "loans",
+          icon: "📅",
+          description: "Detailed payment schedule",
+        },
 
+        // Savings & Fixed Income
+        {
+          id: "fd",
+          name: "FD Calculator",
+          category: "savings",
+          icon: "🏦",
+          description: "Fixed Deposit calculator",
+        },
+        {
+          id: "rd",
+          name: "RD Calculator",
+          category: "savings",
+          icon: "💰",
+          description: "Recurring Deposit calculator",
+        },
+        {
+          id: "ppf",
+          name: "PPF Calculator",
+          category: "savings",
+          icon: "🔐",
+          description: "Public Provident Fund",
+        },
+        {
+          id: "epf",
+          name: "EPF Calculator",
+          category: "savings",
+          icon: "👔",
+          description: "Employee Provident Fund",
+        },
+        {
+          id: "nps",
+          name: "NPS Calculator",
+          category: "savings",
+          icon: "🏛️",
+          description: "National Pension Scheme",
+        },
+        {
+          id: "post-office",
+          name: "Post Office Scheme Calculator",
+          category: "savings",
+          icon: "📮",
+          description: "Post office schemes",
+        },
+        {
+          id: "savings-account",
+          name: "Savings Account Interest",
+          category: "savings",
+          icon: "💵",
+          description: "Savings interest calculator",
+        },
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCalculatorsCount();
-            loadCalculators();
-        });
+        // Retirement Planning
+        {
+          id: "retirement-corpus",
+          name: "Retirement Corpus Calculator",
+          category: "retirement",
+          icon: "🌴",
+          description: "Plan retirement corpus",
+        },
+        {
+          id: "retirement-sip",
+          name: "Retirement SIP Planner",
+          category: "retirement",
+          icon: "📊",
+          description: "SIP for retirement",
+        },
+        {
+          id: "pension",
+          name: "Pension Calculator",
+          category: "retirement",
+          icon: "👴",
+          description: "Calculate pension amount",
+        },
+        {
+          id: "life-insurance",
+          name: "Life Insurance Coverage",
+          category: "retirement",
+          icon: "🛡️",
+          description: "Required insurance cover",
+        },
+        {
+          id: "child-education",
+          name: "Child Education Planner",
+          category: "retirement",
+          icon: "🎓",
+          description: "Plan education expenses",
+        },
+        {
+          id: "marriage-goal",
+          name: "Marriage Goal Planner",
+          category: "retirement",
+          icon: "💍",
+          description: "Plan marriage expenses",
+        },
 
-        function loadCalculatorsCount(){
-            const calculatorsCountSpan = document.querySelector('#calculatorsCount');
-            let calculatorsCount = calculators.length;
-            if(calculators.length > 5){
-                const calculatorsCountDivision = calculators.length / 5;
-                calculatorsCount = Math.floor(calculatorsCountDivision) * 5
-            }
-            calculatorsCountSpan.innerText =  `${calculatorsCount}+ Calculators`
+        // Taxation
+        {
+          id: "income-tax",
+          name: "Income Tax Calculator",
+          category: "tax",
+          icon: "📝",
+          description: "Old vs New regime",
+        },
+        {
+          id: "capital-gains",
+          name: "Capital Gains Tax",
+          category: "tax",
+          icon: "💹",
+          description: "LTCG & STCG calculator",
+        },
+        {
+          id: "hra",
+          name: "HRA Calculator",
+          category: "tax",
+          icon: "🏢",
+          description: "House Rent Allowance",
+        },
+        {
+          id: "gratuity",
+          name: "Gratuity Calculator",
+          category: "tax",
+          icon: "🎁",
+          description: "Calculate gratuity amount",
+        },
+        {
+          id: "tds",
+          name: "TDS Calculator",
+          category: "tax",
+          icon: "📊",
+          description: "Tax Deducted at Source",
+        },
+        {
+          id: "advance-tax",
+          name: "Advance Tax Calculator",
+          category: "tax",
+          icon: "⏰",
+          description: "Calculate advance tax",
+        },
+
+        // Inflation
+        {
+          id: "inflation",
+          name: "Inflation Calculator",
+          category: "tax",
+          icon: "📉",
+          description: "Calculate inflation impact",
+        },
+        {
+          id: "future-value",
+          name: "Future Value Calculator",
+          category: "tax",
+          icon: "🔮",
+          description: "Future value of money",
+        },
+        {
+          id: "real-return",
+          name: "Real Rate of Return",
+          category: "tax",
+          icon: "📊",
+          description: "Inflation-adjusted returns",
+        },
+        {
+          id: "cost-delay",
+          name: "Cost of Delay Calculator",
+          category: "tax",
+          icon: "⏳",
+          description: "Delayed investment cost",
+        },
+
+        // Trading
+        {
+          id: "option-profit",
+          name: "Option Profit Calculator",
+          category: "trading",
+          icon: "📈",
+          description: "Options P&L calculator",
+        },
+        {
+          id: "margin",
+          name: "Margin Calculator",
+          category: "trading",
+          icon: "💼",
+          description: "Calculate margin required",
+        },
+        {
+          id: "brokerage",
+          name: "Brokerage Calculator",
+          category: "trading",
+          icon: "💸",
+          description: "Calculate trading charges",
+        },
+        {
+          id: "stop-loss",
+          name: "Stop Loss Calculator",
+          category: "trading",
+          icon: "🛑",
+          description: "Set stop loss levels",
+        },
+        {
+          id: "trailing-stop",
+          name: "Trailing Stop Loss",
+          category: "trading",
+          icon: "📉",
+          description: "Trailing stop calculator",
+        },
+        {
+          id: "futures-pl",
+          name: "Futures P/L Calculator",
+          category: "trading",
+          icon: "📊",
+          description: "Futures profit/loss",
+        },
+
+        // Business
+        {
+          id: "net-worth",
+          name: "Net Worth Calculator",
+          category: "business",
+          icon: "💎",
+          description: "Calculate net worth",
+        },
+        {
+          id: "cash-flow",
+          name: "Cash Flow Calculator",
+          category: "business",
+          icon: "💵",
+          description: "Track cash flow",
+        },
+        {
+          id: "roi",
+          name: "ROI Calculator",
+          category: "business",
+          icon: "📊",
+          description: "Return on Investment",
+        },
+        {
+          id: "business-breakeven",
+          name: "Business Break-Even",
+          category: "business",
+          icon: "⚖️",
+          description: "Business breakeven point",
+        },
+        {
+          id: "working-capital",
+          name: "Working Capital Calculator",
+          category: "business",
+          icon: "💰",
+          description: "Calculate working capital",
+        },
+
+        // Utility
+        {
+          id: "currency",
+          name: "Currency Converter",
+          category: "utility",
+          icon: "💱",
+          description: "Convert currencies",
+        },
+        {
+          id: "crypto",
+          name: "Crypto Investment Calculator",
+          category: "utility",
+          icon: "₿",
+          description: "Cryptocurrency calculator",
+        },
+        {
+          id: "gold",
+          name: "Gold Investment Calculator",
+          category: "utility",
+          icon: "🥇",
+          description: "Gold investment returns",
+        },
+        {
+          id: "silver",
+          name: "Silver Investment Calculator",
+          category: "utility",
+          icon: "🥈",
+          description: "Silver investment returns",
+        },
+      ];
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCalculatorsCount();
+        loadCalculators();
+      });
+
+      function loadCalculatorsCount() {
+        const calculatorsCountSpan =
+          document.querySelector("#calculatorsCount");
+        let calculatorsCount = calculators.length;
+        if (calculators.length > 5) {
+          const calculatorsCountDivision = calculators.length / 5;
+          calculatorsCount = Math.floor(calculatorsCountDivision) * 5;
+        }
+        calculatorsCountSpan.innerText = `${calculatorsCount}+ Calculators`;
+      }
+
+      function loadCalculators(filter = "all", search = "") {
+        const grid = document.getElementById("calculatorGrid");
+        const noResults = document.getElementById("noResults");
+
+        let filtered = calculators;
+
+        if (filter !== "all") {
+          filtered = calculators.filter((calc) => calc.category === filter);
         }
 
-        function loadCalculators(filter = 'all', search = '') {
-            const grid = document.getElementById('calculatorGrid');
-            const noResults = document.getElementById('noResults');
-            
-            let filtered = calculators;
-            
-            if (filter !== 'all') {
-                filtered = calculators.filter(calc => calc.category === filter);
-            }
-            
-            if (search) {
-                filtered = filtered.filter(calc => 
-                    calc.name.toLowerCase().includes(search.toLowerCase()) ||
-                    calc.description.toLowerCase().includes(search.toLowerCase())
-                );
-            }
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '';
-                noResults.classList.remove('hidden');
-                return;
-            }
-            
-            noResults.classList.add('hidden');
-            
-            grid.innerHTML = filtered.map(calc => `
+        if (search) {
+          filtered = filtered.filter(
+            (calc) =>
+              calc.name.toLowerCase().includes(search.toLowerCase()) ||
+              calc.description.toLowerCase().includes(search.toLowerCase())
+          );
+        }
+
+        if (filtered.length === 0) {
+          grid.innerHTML = "";
+          noResults.classList.remove("hidden");
+          return;
+        }
+
+        noResults.classList.add("hidden");
+
+        grid.innerHTML = filtered
+          .map(
+            (calc) => `
                 <div class="calculator-card bg-white rounded-xl shadow-sm hover:shadow-lg p-6 cursor-pointer border border-gray-100" 
                      onclick="openCalculator('${calc.id}')">
                     <div class="flex items-start justify-between mb-4">
@@ -400,140 +982,279 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">${calc.name}</h3>
                     <p class="text-sm text-gray-600">${calc.description}</p>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
+      }
+
+      function filterCategory(category) {
+        document.querySelectorAll(".tab-button").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+        loadCalculators(category, document.getElementById("searchInput").value);
+      }
+
+      function searchCalculators(query) {
+        const activeCategory = document
+          .querySelector(".tab-button.active")
+          .textContent.trim();
+        const categoryMap = {
+          "All Tools": "all",
+          "Equity & MF": "equity",
+          "Loans & Credit": "loans",
+          "Savings & FD": "savings",
+          Retirement: "retirement",
+          Taxation: "tax",
+          Trading: "trading",
+          Business: "business",
+          Utility: "utility",
+        };
+        loadCalculators(categoryMap[activeCategory] || "all", query);
+      }
+
+      function openCalculator(id) {
+        const calc = calculators.find((c) => c.id === id);
+        if (!calc) return;
+
+        document.getElementById("modalTitle").textContent = calc.name;
+        document.getElementById("calculatorModal").classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+
+        // Load calculator content based on ID
+        loadCalculatorContent(id);
+      }
+
+      function closeModal() {
+        document.getElementById("calculatorModal").classList.add("hidden");
+        document.body.style.overflow = "auto";
+      }
+
+      function loadCalculatorContent(id) {
+        // This function will be extended by individual calculator JS files
+        const modalBody = document.getElementById("modalBody");
+
+        // Call specific calculator function
+        switch (id) {
+          case "stock-average":
+            loadStockAverageCalculator(modalBody);
+            break;
+          case "profit-loss":
+            loadProfitLossCalculator(modalBody);
+            break;
+          case "cagr":
+            loadCAGRCalculator(modalBody);
+            break;
+          case "emi":
+            loadEMICalculator(modalBody);
+            break;
+          case "sip":
+            loadSIPCalculator(modalBody);
+            break;
+          case "fd":
+            loadFDCalculator(modalBody);
+            break;
+          case "income-tax":
+            loadIncomeTaxCalculator(modalBody);
+            break;
+          default:
+            modalBody.innerHTML =
+              '<p class="text-gray-600">Calculator coming soon...</p>';
+        }
+      }
+
+      // Utility Functions
+      function formatNumber(num) {
+        if (!num && num !== 0) return "";
+        return new Intl.NumberFormat("en-IN").format(num);
+      }
+
+      function parseFormattedNumber(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/,/g, ""));
+      }
+
+      function handleNumberInput(e) {
+        let value = e.target.value.replace(/[^0-9.]/g, "");
+        const parts = value.split(".");
+        if (parts.length > 2) {
+          value = parts[0] + "." + parts.slice(1).join("");
+        }
+        e.target.value = value;
+      }
+
+      function formatInputNumber(e) {
+        const value = e.target.value.replace(/,/g, "");
+        if (value && !isNaN(value)) {
+          e.target.value = formatNumber(parseFloat(value));
+        }
+      }
+
+      function showError(elementId, message) {
+        const errorDiv = document.getElementById(elementId + "-error");
+        if (errorDiv) {
+          errorDiv.textContent = message;
+          errorDiv.classList.remove("hidden");
+          errorDiv.classList.add("error-message");
+        }
+      }
+
+      function clearError(elementId) {
+        const errorDiv = document.getElementById(elementId + "-error");
+        if (errorDiv) {
+          errorDiv.classList.add("hidden");
+        }
+      }
+
+      // Close modal on escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      });
+
+      // Close modal on backdrop click
+      document
+        .getElementById("calculatorModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      // PWA: beforeinstallprompt handling and iOS/Android instructions (animated top-right popup)
+      (function () {
+        let deferredPrompt = null;
+        const installBtn = document.getElementById("installBtn");
+        const iosInstructions = document.getElementById("iosInstructions");
+        const androidInstructions = document.getElementById(
+          "androidInstructions"
+        );
+        const androidRetry = document.getElementById("androidRetry");
+        const androidClose = document.getElementById("androidClose");
+
+        function isIos() {
+          return /iphone|ipad|ipod/.test(
+            window.navigator.userAgent.toLowerCase()
+          );
         }
 
-        function filterCategory(category) {
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
+        function isAndroid() {
+          return /android/.test(window.navigator.userAgent.toLowerCase());
+        }
+
+        function isInStandaloneMode() {
+          return (
+            ("standalone" in window.navigator && window.navigator.standalone) ||
+            window.matchMedia("(display-mode: standalone)").matches
+          );
+        }
+
+        function showPopup(el) {
+          if (!el) return;
+          el.classList.remove("hidden", "hide");
+          void el.offsetWidth;
+          el.classList.add("show");
+          el.setAttribute("aria-hidden", "false");
+        }
+
+        function hidePopup(el) {
+          if (!el) return;
+          el.classList.remove("show");
+          el.classList.add("hide");
+          el.setAttribute("aria-hidden", "true");
+          setTimeout(() => {
+            el.classList.add("hidden");
+            el.classList.remove("hide");
+          }, 260);
+        }
+
+        // If already installed / standalone, hide install UI
+        if (isInStandaloneMode()) {
+          if (installBtn) installBtn.classList.add("hidden");
+          hidePopup(iosInstructions);
+          hidePopup(androidInstructions);
+        }
+
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          if (installBtn) installBtn.classList.remove("hidden");
+        });
+
+        // Hide install UI when appinstalled
+        window.addEventListener("appinstalled", () => {
+          if (installBtn) installBtn.classList.add("hidden");
+          hidePopup(iosInstructions);
+          hidePopup(androidInstructions);
+        });
+
+        if (installBtn) {
+          installBtn.addEventListener("click", async () => {
+            if (isIos() && !isInStandaloneMode()) {
+              const isShown =
+                iosInstructions && iosInstructions.classList.contains("show");
+              if (isShown) hidePopup(iosInstructions);
+              else showPopup(iosInstructions);
+              return;
+            }
+
+            if (isAndroid() && !deferredPrompt) {
+              showPopup(androidInstructions);
+              return;
+            }
+
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              const choiceResult = await deferredPrompt.userChoice;
+              deferredPrompt = null;
+              if (choiceResult.outcome === "accepted") {
+                if (installBtn) installBtn.classList.add("hidden");
+                hidePopup(androidInstructions);
+                hidePopup(iosInstructions);
+              }
+            }
+          });
+        }
+
+        if (androidRetry) {
+          androidRetry.addEventListener("click", async () => {
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              const choice = await deferredPrompt.userChoice;
+              deferredPrompt = null;
+              if (choice.outcome === "accepted") {
+                if (installBtn) installBtn.classList.add("hidden");
+                hidePopup(androidInstructions);
+              }
+            } else {
+              const el = androidInstructions;
+              if (!el) return;
+              el.classList.remove("show");
+              void el.offsetWidth;
+              el.classList.add("show");
+            }
+          });
+        }
+
+        if (androidClose) {
+          androidClose.addEventListener("click", () => {
+            hidePopup(androidInstructions);
+          });
+        }
+
+        // Register service worker
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("./sw.js")
+            .then((reg) => {
+              console.log("Service worker registered.", reg);
+            })
+            .catch((err) => {
+              console.warn("Service worker registration failed:", err);
             });
-            event.target.classList.add('active');
-            loadCalculators(category, document.getElementById('searchInput').value);
         }
-
-        function searchCalculators(query) {
-            const activeCategory = document.querySelector('.tab-button.active').textContent.trim();
-            const categoryMap = {
-                'All Tools': 'all',
-                'Equity & MF': 'equity',
-                'Loans & Credit': 'loans',
-                'Savings & FD': 'savings',
-                'Retirement': 'retirement',
-                'Taxation': 'tax',
-                'Trading': 'trading',
-                'Business': 'business',
-                'Utility': 'utility'
-            };
-            loadCalculators(categoryMap[activeCategory] || 'all', query);
-        }
-
-        function openCalculator(id) {
-            const calc = calculators.find(c => c.id === id);
-            if (!calc) return;
-            
-            document.getElementById('modalTitle').textContent = calc.name;
-            document.getElementById('calculatorModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            
-            // Load calculator content based on ID
-            loadCalculatorContent(id);
-        }
-
-        function closeModal() {
-            document.getElementById('calculatorModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function loadCalculatorContent(id) {
-            // This function will be extended by individual calculator JS files
-            const modalBody = document.getElementById('modalBody');
-            
-            // Call specific calculator function
-            switch(id) {
-                case 'stock-average':
-                    loadStockAverageCalculator(modalBody);
-                    break;
-                case 'profit-loss':
-                    loadProfitLossCalculator(modalBody);
-                    break;
-                case 'cagr':
-                    loadCAGRCalculator(modalBody);
-                    break;
-                case 'emi':
-                    loadEMICalculator(modalBody);
-                    break;
-                case 'sip':
-                    loadSIPCalculator(modalBody);
-                    break;
-                case 'fd':
-                    loadFDCalculator(modalBody);
-                    break;
-                case 'income-tax':
-                    loadIncomeTaxCalculator(modalBody);
-                    break;
-                default:
-                    modalBody.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
-            }
-        }
-
-        // Utility Functions
-        function formatNumber(num) {
-            if (!num && num !== 0) return '';
-            return new Intl.NumberFormat('en-IN').format(num);
-        }
-
-        function parseFormattedNumber(str) {
-            if (!str) return 0;
-            return parseFloat(str.replace(/,/g, ''));
-        }
-
-        function handleNumberInput(e) {
-            let value = e.target.value.replace(/[^0-9.]/g, '');
-            const parts = value.split('.');
-            if (parts.length > 2) {
-                value = parts[0] + '.' + parts.slice(1).join('');
-            }
-            e.target.value = value;
-        }
-
-        function formatInputNumber(e) {
-            const value = e.target.value.replace(/,/g, '');
-            if (value && !isNaN(value)) {
-                e.target.value = formatNumber(parseFloat(value));
-            }
-        }
-
-        function showError(elementId, message) {
-            const errorDiv = document.getElementById(elementId + '-error');
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.classList.remove('hidden');
-                errorDiv.classList.add('error-message');
-            }
-        }
-
-        function clearError(elementId) {
-            const errorDiv = document.getElementById(elementId + '-error');
-            if (errorDiv) {
-                errorDiv.classList.add('hidden');
-            }
-        }
-
-        // Close modal on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-
-        // Close modal on backdrop click
-        document.getElementById('calculatorModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
+      })();
     </script>
-</body>
-
-
+  </body>
 </html>
