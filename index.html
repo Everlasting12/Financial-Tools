@@ -193,7 +193,7 @@
         font-size: 13px;
       }
     </style>
-     <script type="application/ld+json">
+    <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -454,7 +454,7 @@
             ></h2>
             <button
               onclick="closeModal()"
-              class="text-white hover:bg-white hover:bg-black/10 p-2 rounded-lg transition-all"
+              class="text-white hover:bg-black/20 p-2 rounded-lg transition-all cursor-pointer"
             >
               <svg
                 class="w-6 h-6"
@@ -473,7 +473,7 @@
           </div>
 
           <!-- Modal Body -->
-          <div id="modalBody" class="p-6 sm:p-8">
+          <div id="modalBody" class="p-6 sm:p-8 overflow-y-auto max-h-[80vh]">
             <!-- Calculator content will be loaded here -->
           </div>
         </div>
@@ -504,6 +504,7 @@
           category: "equity",
           icon: "📊",
           description: "Calculate average buying price",
+          isNew: true,
         },
         {
           id: "profit-loss",
@@ -968,13 +969,25 @@
         grid.innerHTML = filtered
           .map(
             (calc) => `
-                <div class="calculator-card bg-white rounded-xl shadow-sm hover:shadow-lg p-6 cursor-pointer border border-gray-100" 
+                <div class="calculator-card bg-white rounded-xl shadow-sm hover:shadow-lg p-6 cursor-pointer border border-gray-100 relative overflow-clip" 
                      onclick="openCalculator('${calc.id}')">
+                   
+                    ${
+                      calc.isNew
+                        ? `<span class="absolute animate-pulse w-24 text-center top-1 -left-8 bg-red-500 -rotate-45 text-white text-[8px] font-semibold px-2 py-1">NEW</span>`
+                        : ""
+                    }
+
+
                     <div class="flex items-start justify-between mb-4">
                         <div class="text-4xl">${calc.icon}</div>
-                        <span class="category-badge bg-purple-100 text-purple-700">${calc.category}</span>
+                        <span class="category-badge bg-purple-100 text-purple-700">${
+                          calc.category
+                        }</span>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">${calc.name}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">${
+                      calc.name
+                    }</h3>
                     <p class="text-sm text-gray-600">${calc.description}</p>
                 </div>
             `
@@ -1056,8 +1069,8 @@
             loadDividendYieldCalculator(modalBody);
             break;
           case "sip":
-              loadSIPCalculator(modalBody);
-              break;
+            loadSIPCalculator(modalBody);
+            break;
           case "step-up-sip":
             loadStepUpSIPCalculator(modalBody);
             break;
@@ -1155,7 +1168,7 @@
             loadAdvanceTaxCalculator(modalBody);
             break;
 
-          // Inflation 
+          // Inflation
           case "inflation":
             loadInflationCalculator(modalBody);
             break;
@@ -1233,7 +1246,7 @@
 
           case "silver":
             loadSilverCalculator(modalBody);
-            break; 
+            break;
 
           default:
             modalBody.innerHTML =

@@ -6,5 +6,5 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="64" fill="url(#g2)"/>
-  <text x="50%" y="50%" font-family="Inter, Arial" font-weight="700" font-size="110" fill="#fff" text-anchor="middle">FinCalc</text>
+  <text x="50%" y="50%" font-family="Inter, Arial" font-weight="700" font-size="110" fill="#fff" text-anchor="middle">Finverra</text>
 </svg>

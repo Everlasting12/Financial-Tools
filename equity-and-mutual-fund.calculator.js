@@ -2,7 +2,7 @@
 
 // Stock Average Calculator
 function loadStockAverageCalculator(container) {
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">First Purchase</h3>
@@ -93,50 +93,59 @@ function loadStockAverageCalculator(container) {
 }
 
 function calculateStockAverage() {
-    const shares1 = parseFormattedNumber(document.getElementById('shares1').value);
-    const price1 = parseFormattedNumber(document.getElementById('price1').value);
-    const shares2 = parseFormattedNumber(document.getElementById('shares2').value);
-    const price2 = parseFormattedNumber(document.getElementById('price2').value);
-    
-    let valid = true;
-    
-    if (!shares1 || shares1 <= 0) {
-        showError('shares1', 'Please enter valid number of shares');
-        valid = false;
-    }
-    if (!price1 || price1 <= 0) {
-        showError('price1', 'Please enter valid price');
-        valid = false;
-    }
-    if (!shares2 || shares2 <= 0) {
-        showError('shares2', 'Please enter valid number of shares');
-        valid = false;
-    }
-    if (!price2 || price2 <= 0) {
-        showError('price2', 'Please enter valid price');
-        valid = false;
-    }
-    
-    if (!valid) return;
-    
-    const totalShares = shares1 + shares2;
-    const invest1 = shares1 * price1;
-    const invest2 = shares2 * price2;
-    const totalInvestment = invest1 + invest2;
-    const averagePrice = totalInvestment / totalShares;
-    
-    document.getElementById('totalShares').textContent = formatNumber(totalShares);
-    document.getElementById('totalInvestment').textContent = '₹' + formatNumber(totalInvestment.toFixed(2));
-    document.getElementById('averagePrice').textContent = '₹' + formatNumber(averagePrice.toFixed(2));
-    document.getElementById('invest1').textContent = '₹' + formatNumber(invest1.toFixed(2));
-    document.getElementById('invest2').textContent = '₹' + formatNumber(invest2.toFixed(2));
-    
-    document.getElementById('stockAverageResult').classList.remove('hidden');
+  const shares1 = parseFormattedNumber(
+    document.getElementById("shares1").value
+  );
+  const price1 = parseFormattedNumber(document.getElementById("price1").value);
+  const shares2 = parseFormattedNumber(
+    document.getElementById("shares2").value
+  );
+  const price2 = parseFormattedNumber(document.getElementById("price2").value);
+
+  let valid = true;
+
+  if (!shares1 || shares1 <= 0) {
+    showError("shares1", "Please enter valid number of shares");
+    valid = false;
+  }
+  if (!price1 || price1 <= 0) {
+    showError("price1", "Please enter valid price");
+    valid = false;
+  }
+  if (!shares2 || shares2 <= 0) {
+    showError("shares2", "Please enter valid number of shares");
+    valid = false;
+  }
+  if (!price2 || price2 <= 0) {
+    showError("price2", "Please enter valid price");
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  const totalShares = shares1 + shares2;
+  const invest1 = shares1 * price1;
+  const invest2 = shares2 * price2;
+  const totalInvestment = invest1 + invest2;
+  const averagePrice = totalInvestment / totalShares;
+
+  document.getElementById("totalShares").textContent =
+    formatNumber(totalShares);
+  document.getElementById("totalInvestment").textContent =
+    "₹" + formatNumber(totalInvestment.toFixed(2));
+  document.getElementById("averagePrice").textContent =
+    "₹" + formatNumber(averagePrice.toFixed(2));
+  document.getElementById("invest1").textContent =
+    "₹" + formatNumber(invest1.toFixed(2));
+  document.getElementById("invest2").textContent =
+    "₹" + formatNumber(invest2.toFixed(2));
+
+  document.getElementById("stockAverageResult").classList.remove("hidden");
 }
 
 // Profit/Loss Calculator
 function loadProfitLossCalculator(container) {
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
@@ -218,57 +227,70 @@ function loadProfitLossCalculator(container) {
 }
 
 function calculateProfitLoss() {
-    const shares = parseFormattedNumber(document.getElementById('plShares').value);
-    const buyPrice = parseFormattedNumber(document.getElementById('buyPrice').value);
-    const sellPrice = parseFormattedNumber(document.getElementById('sellPrice').value);
-    const chargesPercent = parseFormattedNumber(document.getElementById('charges').value);
-    
-    let valid = true;
-    
-    if (!shares || shares <= 0) {
-        showError('plShares', 'Please enter valid number of shares');
-        valid = false;
-    }
-    if (!buyPrice || buyPrice <= 0) {
-        showError('buyPrice', 'Please enter valid buy price');
-        valid = false;
-    }
-    if (!sellPrice || sellPrice <= 0) {
-        showError('sellPrice', 'Please enter valid sell price');
-        valid = false;
-    }
-    if (chargesPercent < 0) {
-        showError('charges', 'Charges cannot be negative');
-        valid = false;
-    }
-    
-    if (!valid) return;
-    
-    const investment = shares * buyPrice;
-    const returns = shares * sellPrice;
-    const charges = (investment + returns) * (chargesPercent / 100);
-    const netPL = returns - investment - charges;
-    const returnPercent = (netPL / investment) * 100;
-    
-    document.getElementById('plInvestment').textContent = '₹' + formatNumber(investment.toFixed(2));
-    document.getElementById('plReturns').textContent = '₹' + formatNumber(returns.toFixed(2));
-    document.getElementById('plCharges').textContent = '₹' + formatNumber(charges.toFixed(2));
-    document.getElementById('netPL').textContent = '₹' + formatNumber(Math.abs(netPL).toFixed(2));
-    document.getElementById('returnPercent').textContent = returnPercent.toFixed(2) + '%';
-    
-    const plCard = document.getElementById('plCard');
-    if (netPL >= 0) {
-        plCard.className = 'profit-bg rounded-xl p-6 text-white mb-4';
-    } else {
-        plCard.className = 'loss-bg rounded-xl p-6 text-white mb-4';
-    }
-    
-    document.getElementById('plResult').classList.remove('hidden');
+  const shares = parseFormattedNumber(
+    document.getElementById("plShares").value
+  );
+  const buyPrice = parseFormattedNumber(
+    document.getElementById("buyPrice").value
+  );
+  const sellPrice = parseFormattedNumber(
+    document.getElementById("sellPrice").value
+  );
+  const chargesPercent = parseFormattedNumber(
+    document.getElementById("charges").value
+  );
+
+  let valid = true;
+
+  if (!shares || shares <= 0) {
+    showError("plShares", "Please enter valid number of shares");
+    valid = false;
+  }
+  if (!buyPrice || buyPrice <= 0) {
+    showError("buyPrice", "Please enter valid buy price");
+    valid = false;
+  }
+  if (!sellPrice || sellPrice <= 0) {
+    showError("sellPrice", "Please enter valid sell price");
+    valid = false;
+  }
+  if (chargesPercent < 0) {
+    showError("charges", "Charges cannot be negative");
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  const investment = shares * buyPrice;
+  const returns = shares * sellPrice;
+  const charges = (investment + returns) * (chargesPercent / 100);
+  const netPL = returns - investment - charges;
+  const returnPercent = (netPL / investment) * 100;
+
+  document.getElementById("plInvestment").textContent =
+    "₹" + formatNumber(investment.toFixed(2));
+  document.getElementById("plReturns").textContent =
+    "₹" + formatNumber(returns.toFixed(2));
+  document.getElementById("plCharges").textContent =
+    "₹" + formatNumber(charges.toFixed(2));
+  document.getElementById("netPL").textContent =
+    "₹" + formatNumber(Math.abs(netPL).toFixed(2));
+  document.getElementById("returnPercent").textContent =
+    returnPercent.toFixed(2) + "%";
+
+  const plCard = document.getElementById("plCard");
+  if (netPL >= 0) {
+    plCard.className = "profit-bg rounded-xl p-6 text-white mb-4";
+  } else {
+    plCard.className = "loss-bg rounded-xl p-6 text-white mb-4";
+  }
+
+  document.getElementById("plResult").classList.remove("hidden");
 }
 
 // CAGR Calculator
 function loadCAGRCalculator(container) {
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
@@ -349,48 +371,61 @@ function loadCAGRCalculator(container) {
 }
 
 function calculateCAGR() {
-    const initial = parseFormattedNumber(document.getElementById('cagrInitial').value);
-    const final = parseFormattedNumber(document.getElementById('cagrFinal').value);
-    const years = parseFormattedNumber(document.getElementById('cagrYears').value);
-    
-    let valid = true;
-    
-    if (!initial || initial <= 0) {
-        showError('cagrInitial', 'Please enter valid initial investment');
-        valid = false;
-    }
-    if (!final || final <= 0) {
-        showError('cagrFinal', 'Please enter valid final value');
-        valid = false;
-    }
-    if (!years || years <= 0) {
-        showError('cagrYears', 'Please enter valid number of years');
-        valid = false;
-    }
-    if (final <= initial) {
-        showError('cagrFinal', 'Final value must be greater than initial investment');
-        valid = false;
-    }
-    
-    if (!valid) return;
-    
-    const cagr = (Math.pow(final / initial, 1 / years) - 1) * 100;
-    const gain = final - initial;
-    const absoluteReturn = ((final - initial) / initial) * 100;
-    
-    document.getElementById('cagrRate').textContent = cagr.toFixed(2) + '%';
-    document.getElementById('cagrGain').textContent = '₹' + formatNumber(gain.toFixed(2));
-    document.getElementById('cagrAbsolute').textContent = absoluteReturn.toFixed(2) + '%';
-    document.getElementById('cagrInitialDisplay').textContent = '₹' + formatNumber(initial.toFixed(2));
-    document.getElementById('cagrFinalDisplay').textContent = '₹' + formatNumber(final.toFixed(2));
-    document.getElementById('cagrYearsDisplay').textContent = years + ' years';
-    
-    document.getElementById('cagrResult').classList.remove('hidden');
+  const initial = parseFormattedNumber(
+    document.getElementById("cagrInitial").value
+  );
+  const final = parseFormattedNumber(
+    document.getElementById("cagrFinal").value
+  );
+  const years = parseFormattedNumber(
+    document.getElementById("cagrYears").value
+  );
+
+  let valid = true;
+
+  if (!initial || initial <= 0) {
+    showError("cagrInitial", "Please enter valid initial investment");
+    valid = false;
+  }
+  if (!final || final <= 0) {
+    showError("cagrFinal", "Please enter valid final value");
+    valid = false;
+  }
+  if (!years || years <= 0) {
+    showError("cagrYears", "Please enter valid number of years");
+    valid = false;
+  }
+  if (final <= initial) {
+    showError(
+      "cagrFinal",
+      "Final value must be greater than initial investment"
+    );
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  const cagr = (Math.pow(final / initial, 1 / years) - 1) * 100;
+  const gain = final - initial;
+  const absoluteReturn = ((final - initial) / initial) * 100;
+
+  document.getElementById("cagrRate").textContent = cagr.toFixed(2) + "%";
+  document.getElementById("cagrGain").textContent =
+    "₹" + formatNumber(gain.toFixed(2));
+  document.getElementById("cagrAbsolute").textContent =
+    absoluteReturn.toFixed(2) + "%";
+  document.getElementById("cagrInitialDisplay").textContent =
+    "₹" + formatNumber(initial.toFixed(2));
+  document.getElementById("cagrFinalDisplay").textContent =
+    "₹" + formatNumber(final.toFixed(2));
+  document.getElementById("cagrYearsDisplay").textContent = years + " years";
+
+  document.getElementById("cagrResult").classList.remove("hidden");
 }
 
 // SIP Calculator
 function loadSIPCalculator(container) {
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
@@ -470,75 +505,97 @@ function loadSIPCalculator(container) {
 }
 
 function calculateSIP() {
-    const monthlyAmount = parseFormattedNumber(document.getElementById('sipAmount').value);
-    const annualRate = parseFormattedNumber(document.getElementById('sipRate').value);
-    const years = parseFormattedNumber(document.getElementById('sipYears').value);
-    
-    let valid = true;
-    
-    if (!monthlyAmount || monthlyAmount <= 0) {
-        showError('sipAmount', 'Please enter valid monthly amount');
-        valid = false;
-    }
-    if (!annualRate || annualRate <= 0) {
-        showError('sipRate', 'Please enter valid return rate');
-        valid = false;
-    }
-    if (!years || years <= 0) {
-        showError('sipYears', 'Please enter valid time period');
-        valid = false;
-    }
-    
-    if (!valid) return;
-    
-    const monthlyRate = annualRate / 12 / 100;
-    const months = years * 12;
-    const totalInvested = monthlyAmount * months;
-    
-    // Future Value of SIP formula
-    const maturityValue = monthlyAmount * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
-    const estimatedReturns = maturityValue - totalInvested;
-    
-    const investedPercent = (totalInvested / maturityValue * 100).toFixed(1);
-    const gainPercent = (estimatedReturns / maturityValue * 100).toFixed(1);
-    
-    document.getElementById('sipInvested').textContent = '₹' + formatNumber(totalInvested.toFixed(2));
-    document.getElementById('sipReturns').textContent = '₹' + formatNumber(estimatedReturns.toFixed(2));
-    document.getElementById('sipMaturity').textContent = '₹' + formatNumber(maturityValue.toFixed(2));
-    document.getElementById('sipInvestedPercent').textContent = investedPercent + '%';
-    document.getElementById('sipGainPercent').textContent = gainPercent + '%';
-    
-    document.getElementById('sipResult').classList.remove('hidden');
+  const monthlyAmount = parseFormattedNumber(
+    document.getElementById("sipAmount").value
+  );
+  const annualRate = parseFormattedNumber(
+    document.getElementById("sipRate").value
+  );
+  const years = parseFormattedNumber(document.getElementById("sipYears").value);
+
+  let valid = true;
+
+  if (!monthlyAmount || monthlyAmount <= 0) {
+    showError("sipAmount", "Please enter valid monthly amount");
+    valid = false;
+  }
+  if (!annualRate || annualRate <= 0) {
+    showError("sipRate", "Please enter valid return rate");
+    valid = false;
+  }
+  if (!years || years <= 0) {
+    showError("sipYears", "Please enter valid time period");
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  const monthlyRate = annualRate / 12 / 100;
+  const months = years * 12;
+  const totalInvested = monthlyAmount * months;
+
+  // Future Value of SIP formula
+  const maturityValue =
+    monthlyAmount *
+    (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) *
+      (1 + monthlyRate));
+  const estimatedReturns = maturityValue - totalInvested;
+
+  const investedPercent = ((totalInvested / maturityValue) * 100).toFixed(1);
+  const gainPercent = ((estimatedReturns / maturityValue) * 100).toFixed(1);
+
+  document.getElementById("sipInvested").textContent =
+    "₹" + formatNumber(totalInvested.toFixed(2));
+  document.getElementById("sipReturns").textContent =
+    "₹" + formatNumber(estimatedReturns.toFixed(2));
+  document.getElementById("sipMaturity").textContent =
+    "₹" + formatNumber(maturityValue.toFixed(2));
+  document.getElementById("sipInvestedPercent").textContent =
+    investedPercent + "%";
+  document.getElementById("sipGainPercent").textContent = gainPercent + "%";
+
+  document.getElementById("sipResult").classList.remove("hidden");
 }
 
-function loadXIRRCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
-}
-function loadBreakEvenCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
-}
-function loadPositionSizeCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
-}
-function loadRiskRewardCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
-}
-function loadDividendYieldCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+function loadXIRRCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
 
-function loadStepUpSIPCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+function loadBreakEvenCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadLumpsumInvestmentCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+function loadPositionSizeCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadSWPCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+function loadRiskRewardCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadSTPCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+function loadDividendYieldCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
-function loadMutualFundReturnCalculator(container){
-    container.innerHTML = '<p class="text-gray-600">Calculator coming soon...</p>';
+
+function loadStepUpSIPCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadLumpsumInvestmentCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadSWPCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadSTPCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
+}
+function loadMutualFundReturnCalculator(container) {
+  container.innerHTML =
+    '<p class="text-gray-600">Calculator coming soon...</p>';
 }
