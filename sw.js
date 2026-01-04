@@ -1,19 +1,19 @@
-const CACHE_NAME = "fin-calc-v2";
+const CACHE_NAME = "finnvera-calc-v2";
 const ASSETS = [
   "./",
   "./index.html",
   "./offline.html",
   "./manifest.json",
   "./tailwindcss.min.js",
-  "./business.calculators.js",
+  "./business.calculator.js",
   "./equity-and-mutual-fund.calculator.js",
   "./inflation.calculators.js",
-  "./loan-and-credit.calculators.js",
-  "./retirement-planning.calculators.js",
-  "./savings-and-fixed-income.calculators.js",
-  "./taxation.calculators.js",
-  "./trading.calculators.js",
-  "./utility.calculators.js",
+  "./loan-and-credit.calculator.js",
+  "./retirement-planning.calculator.js",
+  "./savings-and-fixed-income.calculator.js",
+  "./taxation.calculator.js",
+  "./trading.calculator.js",
+  "./utility.calculator.js",
   "./icons/icon-192.svg",
   "./icons/icon-512.svg",
 ];
