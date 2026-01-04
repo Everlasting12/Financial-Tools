@@ -211,7 +211,7 @@ function loadTDSCalculator(container) {
                         <option value="1">Buying Property (1%)</option>
                     </select>
                 </div>
-                <button onclick="calculateTDS()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Estimate TDS</button>
+                <button onclick="calculateTDS()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Estimate TDS</button>
             </div>
             <div id="tdsResult" class="hidden animate-fade-in">
                 <div class="bg-gray-50 rounded-xl p-6 space-y-4">
@@ -250,7 +250,7 @@ function loadAdvanceTaxCalculator(container) {
                 <label class="block text-sm font-medium text-gray-700 mb-2">Estimated Total Annual Tax (₹)</label>
                 <input type="text" id="atTotalTax" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Annual tax after all deductions" oninput="handleNumberInput(event)">
             </div>
-            <button onclick="calculateAdvanceTax()" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold">Generate Installments</button>
+            <button onclick="calculateAdvanceTax()" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold cursor-pointer">Generate Installments</button>
 
             <div id="atResult" class="hidden animate-fade-in">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

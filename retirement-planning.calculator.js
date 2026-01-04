@@ -67,7 +67,7 @@ function loadRetirementCorpusCalculator(container) {
                 </div>
 
                 <button onclick="calculateRetirementCorpus()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Corpus
                 </button>
             </div>
@@ -285,7 +285,7 @@ function loadRetirementSIPPlannerCalculator(container) {
                 </div>
 
                 <button onclick="calculateRetirementSIP()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Retirement Plan
                 </button>
             </div>
@@ -491,7 +491,7 @@ function loadLifeInsuranceCoverageCalculator(container) {
                 </div>
 
                 <button onclick="calculateLifeInsurance()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Coverage
                 </button>
             </div>
@@ -674,7 +674,7 @@ function loadChildEducationPlannerCalculator(container) {
                 </div>
 
                 <button onclick="calculateChildEducation()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Investment
                 </button>
             </div>
@@ -850,7 +850,7 @@ function loadMarriageGoalPlannerCalculator(container) {
                 </div>
 
                 <button onclick="calculateMarriageGoal()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Plan
                 </button>
             </div>

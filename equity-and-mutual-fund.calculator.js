@@ -190,7 +190,7 @@ function loadProfitLossCalculator(container) {
                 </div>
 
                 <button onclick="calculateProfitLoss()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate P&L
                 </button>
             </div>
@@ -324,7 +324,7 @@ function loadCAGRCalculator(container) {
                 </div>
 
                 <button onclick="calculateCAGR()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate CAGR
                 </button>
             </div>
@@ -460,7 +460,7 @@ function loadSIPCalculator(container) {
                 </div>
 
                 <button onclick="calculateSIP()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Returns
                 </button>
             </div>
@@ -579,7 +579,7 @@ function loadXIRRCalculator(container) {
                            placeholder="e.g., 3.5" oninput="handleNumberInput(event); clearError('xirrYears')">
                     <p id="xirrYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateXIRR()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Annualized Return</button>
+                <button onclick="calculateXIRR()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Annualized Return</button>
             </div>
             <div id="xirrResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -655,7 +655,7 @@ function loadPositionSizeCalculator(container) {
                            placeholder="e.g., 20" oninput="handleNumberInput(event); clearError('psPoints')">
                     <p id="psPoints-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculatePositionSize()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Position Size</button>
+                <button onclick="calculatePositionSize()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Position Size</button>
             </div>
             <div id="psResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -735,7 +735,7 @@ function loadStepUpSIPCalculator(container) {
                            placeholder="e.g., 12" value="12" oninput="handleNumberInput(event); clearError('suRate')">
                     <p id="suRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateStepUpSIP()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Growth</button>
+                <button onclick="calculateStepUpSIP()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Growth</button>
             </div>
             <div id="suResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -885,7 +885,7 @@ function loadDividendYieldCalculator(container) {
                            placeholder="e.g., 45" oninput="handleNumberInput(event); clearError('dyDiv')" onblur="formatInputNumber(event)">
                     <p id="dyDiv-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateDividendYield()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Yield</button>
+                <button onclick="calculateDividendYield()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Yield</button>
             </div>
             <div id="dyResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -1012,7 +1012,7 @@ function loadBreakEvenCalculator(container) {
                            placeholder="e.g., 250" oninput="handleNumberInput(event); clearError('bePrice')" onblur="formatInputNumber(event)">
                     <p id="bePrice-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateBreakEven()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Break Even</button>
+                <button onclick="calculateBreakEven()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Break Even</button>
             </div>
             <div id="beResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -1084,7 +1084,7 @@ function loadLumpsumInvestmentCalculator(container) {
                            placeholder="e.g., 10" oninput="handleNumberInput(event); clearError('lumYears')">
                     <p id="lumYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateLumpsum()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Maturity</button>
+                <button onclick="calculateLumpsum()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Maturity</button>
             </div>
             <div id="lumResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
@@ -1231,7 +1231,7 @@ function loadMutualFundReturnCalculator(container) {
                            placeholder="e.g., 5" oninput="handleNumberInput(event); clearError('mfYears')">
                     <p id="mfYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateMFReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Annualized Return</button>
+                <button onclick="calculateMFReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Annualized Return</button>
             </div>
             <div id="mfResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">

@@ -230,7 +230,7 @@ function loadTrailingStopCalculator(container) {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Trailing Gap (₹)</label>
                     <input type="text" id="tsGap" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Points below market price">
                 </div>
-                <button onclick="calculateTrailingStop()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold">Update Trailing SL</button>
+                <button onclick="calculateTrailingStop()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Update Trailing SL</button>
             </div>
             <div id="tsResult" class="hidden animate-fade-in">
                 <div class="bg-blue-50 p-6 rounded-xl border border-blue-200">

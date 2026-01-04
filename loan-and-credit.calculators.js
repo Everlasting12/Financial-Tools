@@ -36,7 +36,7 @@ function loadEMICalculator(container) {
                 </div>
 
                 <button onclick="calculateEMI()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate EMI
                 </button>
             </div>
@@ -202,7 +202,7 @@ function loadLoanEligibilityCalculator(container) {
                 </div>
 
                 <button onclick="calculateLoanEligibility()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Check Eligibility
                 </button>
             </div>
@@ -379,7 +379,7 @@ function loadPrepaymentCalculator(container) {
                 </div>
 
                 <button onclick="calculatePrepayment()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Savings
                 </button>
             </div>
@@ -769,7 +769,7 @@ function loadAmortizationScheduleCalculator(container) {
                 </div>
             </div>
             
-            <button onclick="calculateAmortization()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Generate Schedule</button>
+            <button onclick="calculateAmortization()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Generate Schedule</button>
 
             <div id="amrtResult" class="hidden animate-fade-in">
                 <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-200">

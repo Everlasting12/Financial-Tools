@@ -14,7 +14,7 @@ function loadCurrencyCalculator(container) {
                            placeholder="e.g., 83.50" oninput="handleNumberInput(event); clearError('curRate')">
                     <p id="curRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateCurrency()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Convert Currency</button>
+                <button onclick="calculateCurrency()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Convert Currency</button>
             </div>
             <div id="curResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-500 to-blue-600">
