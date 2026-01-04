@@ -958,3 +958,133 @@ function calculateMarriageGoal() {
 
   document.getElementById("marriageResult").classList.remove("hidden");
 }
+
+function loadPensionCalculator(container) {
+  container.innerHTML = `
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Age (Years)</label>
+                    <input type="text" id="penAge" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 30" 
+                           oninput="handleNumberInput(event); clearError('penAge')">
+                    <p id="penAge-error" class="hidden text-red-500 text-sm mt-1"></p>
+                </div>
+
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Contribution (₹)</label>
+                    <input type="text" id="penMonthly" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 10,000" 
+                           oninput="handleNumberInput(event); clearError('penMonthly')"
+                           onblur="formatInputNumber(event)">
+                    <p id="penMonthly-error" class="hidden text-red-500 text-sm mt-1"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Expected Return (%)</label>
+                        <input type="text" id="penRate" 
+                               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                               placeholder="e.g., 10" 
+                               oninput="handleNumberInput(event); clearError('penRate')">
+                        <p id="penRate-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    </div>
+                    <div class="input-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Annuity Purchase (%)</label>
+                        <select id="penAnnuityPercent" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500">
+                            <option value="0.4">40% (Minimum)</option>
+                            <option value="0.6">60%</option>
+                            <option value="0.8">80%</option>
+                            <option value="1.0">100%</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="calculatePension()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-4 rounded-lg font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider text-sm">
+                    Calculate Retirement Plan
+                </button>
+            </div>
+
+            <div id="penResult" class="hidden animate-fade-in space-y-6">
+                <div class="result-card rounded-2xl p-6 text-white bg-gradient-to-br from-indigo-700 to-purple-900 shadow-xl border border-white border-opacity-10">
+                    <h3 class="text-lg font-semibold mb-6 border-b border-white border-opacity-20 pb-2">Retirement Forecast</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-indigo-100 text-xs uppercase tracking-wider mb-1">Expected Monthly Pension</p>
+                            <p class="text-4xl font-black" id="penMonthlyVal">-</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white border-opacity-10">
+                            <div>
+                                <p class="text-indigo-100 text-[10px] uppercase tracking-wider mb-1">Total Corpus</p>
+                                <p class="text-lg font-bold" id="penTotalCorpus">-</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-indigo-100 text-[10px] uppercase tracking-wider mb-1">Lump Sum Payout</p>
+                                <p class="text-lg font-bold text-green-300" id="penLumpSum">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                    <p class="text-xs text-indigo-700 leading-relaxed">
+                        <strong>Note:</strong> Calculation assumes retirement at age 60 and an indicative 6% annuity (pension) return rate on the invested portion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function calculatePension() {
+  const age = parseFormattedNumber(document.getElementById("penAge").value);
+  const monthly = parseFormattedNumber(
+    document.getElementById("penMonthly").value
+  );
+  const rate = parseFormattedNumber(document.getElementById("penRate").value);
+  const annuityPct = parseFloat(
+    document.getElementById("penAnnuityPercent").value
+  );
+
+  let isValid = true;
+  if (!age || age < 18 || age >= 60) {
+    showError("penAge", "Age must be between 18 and 60");
+    isValid = false;
+  }
+  if (!monthly || monthly <= 0) {
+    showError("penMonthly", "Enter monthly contribution");
+    isValid = false;
+  }
+  if (!rate || rate <= 0) {
+    showError("penRate", "Enter expected return");
+    isValid = false;
+  }
+  if (!isValid) return;
+
+  const retirementAge = 60;
+  const months = (retirementAge - age) * 12;
+  const r = rate / 12 / 100;
+
+  // Future Value of Monthly Investments
+  const totalCorpus = monthly * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
+
+  const annuityAmount = totalCorpus * annuityPct;
+  const lumpSum = totalCorpus - annuityAmount;
+
+  // Assuming 6% Annuity Rate for Pension
+  const monthlyPension = (annuityAmount * 0.06) / 12;
+
+  // UI Updates
+  document.getElementById("penMonthlyVal").textContent =
+    "₹" + formatNumber(monthlyPension.toFixed(0));
+  document.getElementById("penTotalCorpus").textContent =
+    "₹" + formatNumber(totalCorpus.toFixed(0));
+  document.getElementById("penLumpSum").textContent =
+    "₹" + formatNumber(lumpSum.toFixed(0));
+
+  document.getElementById("penResult").classList.remove("hidden");
+}

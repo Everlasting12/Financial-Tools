@@ -900,3 +900,142 @@ function calculateAmortization() {
   document.getElementById("amrtTableBody").innerHTML = html;
   document.getElementById("amrtResult").classList.remove("hidden");
 }
+
+function loadLoanPrepaymentCalculator(container) {
+  container.innerHTML = `
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Remaining Principal (₹)</label>
+                    <input type="text" id="prePrincipal" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 25,00,000" 
+                           oninput="handleNumberInput(event); clearError('prePrincipal')" 
+                           onblur="formatInputNumber(event)">
+                    <p id="prePrincipal-error" class="hidden text-red-500 text-sm mt-1"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
+                        <input type="text" id="preRate" 
+                               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                               placeholder="e.g., 9" 
+                               oninput="handleNumberInput(event); clearError('preRate')">
+                        <p id="preRate-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    </div>
+                    <div class="input-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current EMI (₹)</label>
+                        <input type="text" id="preEmi" 
+                               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                               placeholder="e.g., 25,000" 
+                               oninput="handleNumberInput(event); clearError('preEmi')"
+                               onblur="formatInputNumber(event)">
+                        <p id="preEmi-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The additional amount you plan to pay every month on top of your existing EMI.">Monthly Prepayment (₹)</label>
+                    <input type="text" id="preMonthlyExtra" 
+                           class="input-field w-full px-4 py-3 border border-teal-300 bg-teal-50/30 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 5,000" 
+                           oninput="handleNumberInput(event); clearError('preMonthlyExtra')"
+                           onblur="formatInputNumber(event)">
+                    <p id="preMonthlyExtra-error" class="hidden text-red-500 text-sm mt-1"></p>
+                </div>
+
+                <button onclick="calculatePrepayment()" class="w-full bg-gradient-to-r from-teal-600 to-indigo-700 text-white py-4 rounded-lg font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider text-sm">
+                    Calculate Savings
+                </button>
+            </div>
+
+            <div id="preResult" class="hidden animate-fade-in space-y-6">
+                <div class="result-card rounded-2xl p-6 text-white bg-gradient-to-br from-teal-600 to-indigo-800 shadow-xl border border-white border-opacity-10">
+                    <h3 class="text-lg font-semibold mb-6 border-b border-white border-opacity-20 pb-2">Prepayment Impact</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-teal-100 text-xs uppercase tracking-wider mb-1">Total Interest Saved</p>
+                            <p class="text-4xl font-black" id="preSavedInt">-</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white border-opacity-10">
+                            <div>
+                                <p class="text-teal-100 text-[10px] uppercase tracking-wider mb-1">New Tenure</p>
+                                <p class="text-lg font-bold" id="preNewTenure">-</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-teal-100 text-[10px] uppercase tracking-wider mb-1">Time Saved</p>
+                                <p class="text-lg font-bold text-teal-300" id="preTimeSaved">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        <strong>Strategy:</strong> Even a small monthly prepayment significantly reduces the principal, leading to a massive reduction in long-term interest because interest is calculated on the reducing balance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function calculatePrepayment() {
+  const P = parseFormattedNumber(document.getElementById("prePrincipal").value);
+  const annualRate = parseFormattedNumber(
+    document.getElementById("preRate").value
+  );
+  const emi = parseFormattedNumber(document.getElementById("preEmi").value);
+  const extra =
+    parseFormattedNumber(document.getElementById("preMonthlyExtra").value) || 0;
+
+  let isValid = true;
+  if (!P || P <= 0) {
+    showError("prePrincipal", "Enter remaining principal");
+    isValid = false;
+  }
+  if (!annualRate || annualRate <= 0) {
+    showError("preRate", "Enter interest rate");
+    isValid = false;
+  }
+  if (!emi || emi <= P * (annualRate / 12 / 100)) {
+    showError("preEmi", "EMI must be greater than monthly interest");
+    isValid = false;
+  }
+  if (!isValid) return;
+
+  const r = annualRate / 12 / 100;
+
+  // Original Tenure calculation
+  let originalMonths = Math.log(emi / (emi - P * r)) / Math.log(1 + r);
+  let originalInterest = emi * originalMonths - P;
+
+  // New Tenure with Prepayment
+  let newEmi = emi + extra;
+  let newMonths = Math.log(newEmi / (newEmi - P * r)) / Math.log(1 + r);
+  let newInterest = newEmi * newMonths - P;
+
+  let interestSaved = originalInterest - newInterest;
+  let monthsSaved = originalMonths - newMonths;
+
+  // UI Updates
+  document.getElementById("preSavedInt").textContent =
+    "₹" + formatNumber(interestSaved.toFixed(0));
+
+  // Format New Tenure
+  let years = Math.floor(newMonths / 12);
+  let months = Math.round(newMonths % 12);
+  document.getElementById("preNewTenure").textContent = `${years}y ${months}m`;
+
+  // Format Time Saved
+  let sYears = Math.floor(monthsSaved / 12);
+  let sMonths = Math.round(monthsSaved % 12);
+  document.getElementById(
+    "preTimeSaved"
+  ).textContent = `${sYears}y ${sMonths}m`;
+
+  document.getElementById("preResult").classList.remove("hidden");
+}
