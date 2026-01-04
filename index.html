@@ -1042,216 +1042,224 @@
       function loadCalculatorContent(id) {
         // This function will be extended by individual calculator JS files
         const modalBody = document.getElementById("modalBody");
+        // Clear previous content and show a short loading state to avoid stale content
+        modalBody.innerHTML = '<p class="text-gray-600">Loading...</p>';
 
-        // Call specific calculator function
-        switch (id) {
-          case "stock-average":
-            loadStockAverageCalculator(modalBody);
-            break;
-          case "profit-loss":
-            loadProfitLossCalculator(modalBody);
-            break;
-          case "cagr":
-            loadCAGRCalculator(modalBody);
-            break;
-          case "xirr":
-            loadXIRRCalculator(modalBody);
-            break;
-          case "breakeven":
-            loadBreakEvenCalculator(modalBody);
-            break;
-          case "position-size":
-            loadPositionSizeCalculator(modalBody);
-            break;
-          case "risk-reward":
-            loadRiskRewardCalculator(modalBody);
-            break;
-          case "dividend-yield":
-            loadDividendYieldCalculator(modalBody);
-            break;
-          case "sip":
-            loadSIPCalculator(modalBody);
-            break;
-          case "step-up-sip":
-            loadStepUpSIPCalculator(modalBody);
-            break;
-          case "lumpsum":
-            loadLumpsumInvestmentCalculator(modalBody);
-            break;
-          case "swp":
-            loadSWPCalculator(modalBody);
-            break;
-          case "stp":
-            loadSTPCalculator(modalBody);
-            break;
-          case "mf-return":
-            loadMutualFundReturnCalculator(modalBody);
-            break;
-          // Loans & Credit
-          case "emi":
-            loadEMICalculator(modalBody);
-            break;
-          case "loan-eligibility":
-            loadLoanEligibilityCalculator(modalBody);
-            break;
-          case "prepayment":
-            loadLoanPrepaymentCalculator(modalBody);
-            break;
-          case "balance-transfer":
-            loadBalanceTransferCalculator(modalBody);
-            break;
-          case "credit-card":
-            loadCreditCardInterestCalculator(modalBody);
-            break;
-          case "amortization":
-            loadAmortizationScheduleCalculator(modalBody);
-            break;
-          // Savings & Fixed Income
-          case "fd":
-            loadFDCalculator(modalBody);
-            break;
-          case "rd":
-            loadRDCalculator(modalBody);
-            break;
-          case "ppf":
-            loadPPFCalculator(modalBody);
-            break;
-          case "epf":
-            loadEPFCalculator(modalBody);
-            break;
-          case "nps":
-            loadNPSCalculator(modalBody);
-            break;
-          case "post-office":
-            loadPostOfficeSchemeCalculator(modalBody);
-            break;
-          case "savings-account":
-            loadSavingsAccountInterestCalculator(modalBody);
-            break;
+        // Call specific calculator function inside try/catch to avoid leaving stale content
+        try {
+          switch (id) {
+            case "stock-average":
+              loadStockAverageCalculator(modalBody);
+              break;
+            case "profit-loss":
+              loadProfitLossCalculator(modalBody);
+              break;
+            case "cagr":
+              loadCAGRCalculator(modalBody);
+              break;
+            case "xirr":
+              loadXIRRCalculator(modalBody);
+              break;
+            case "breakeven":
+              loadBreakEvenCalculator(modalBody);
+              break;
+            case "position-size":
+              loadPositionSizeCalculator(modalBody);
+              break;
+            case "risk-reward":
+              loadRiskRewardCalculator(modalBody);
+              break;
+            case "dividend-yield":
+              loadDividendYieldCalculator(modalBody);
+              break;
+            case "sip":
+              loadSIPCalculator(modalBody);
+              break;
+            case "step-up-sip":
+              loadStepUpSIPCalculator(modalBody);
+              break;
+            case "lumpsum":
+              loadLumpsumInvestmentCalculator(modalBody);
+              break;
+            case "swp":
+              loadSWPCalculator(modalBody);
+              break;
+            case "stp":
+              loadSTPCalculator(modalBody);
+              break;
+            case "mf-return":
+              loadMutualFundReturnCalculator(modalBody);
+              break;
+            // Loans & Credit
+            case "emi":
+              loadEMICalculator(modalBody);
+              break;
+            case "loan-eligibility":
+              loadLoanEligibilityCalculator(modalBody);
+              break;
+            case "prepayment":
+              loadLoanPrepaymentCalculator(modalBody);
+              break;
+            case "balance-transfer":
+              loadBalanceTransferCalculator(modalBody);
+              break;
+            case "credit-card":
+              loadCreditCardInterestCalculator(modalBody);
+              break;
+            case "amortization":
+              loadAmortizationScheduleCalculator(modalBody);
+              break;
+            // Savings & Fixed Income
+            case "fd":
+              loadFDCalculator(modalBody);
+              break;
+            case "rd":
+              loadRDCalculator(modalBody);
+              break;
+            case "ppf":
+              loadPPFCalculator(modalBody);
+              break;
+            case "epf":
+              loadEPFCalculator(modalBody);
+              break;
+            case "nps":
+              loadNPSCalculator(modalBody);
+              break;
+            case "post-office":
+              loadPostOfficeSchemeCalculator(modalBody);
+              break;
+            case "savings-account":
+              loadSavingsAccountInterestCalculator(modalBody);
+              break;
 
-          // Retirement Planning
-          case "retirement-corpus":
-            loadRetirementCorpusCalculator(modalBody);
-            break;
-          case "retirement-sip":
-            loadRetirementSIPPlannerCalculator(modalBody);
-            break;
-          case "pension":
-            loadPensionCalculator(modalBody);
-            break;
-          case "life-insurance":
-            loadLifeInsuranceCoverageCalculator(modalBody);
-            break;
-          case "child-education":
-            loadChildEducationPlannerCalculator(modalBody);
-            break;
-          case "marriage-goal":
-            loadMarriageGoalPlannerCalculator(modalBody);
-            break;
+            // Retirement Planning
+            case "retirement-corpus":
+              loadRetirementCorpusCalculator(modalBody);
+              break;
+            case "retirement-sip":
+              loadRetirementSIPPlannerCalculator(modalBody);
+              break;
+            case "pension":
+              loadPensionCalculator(modalBody);
+              break;
+            case "life-insurance":
+              loadLifeInsuranceCoverageCalculator(modalBody);
+              break;
+            case "child-education":
+              loadChildEducationPlannerCalculator(modalBody);
+              break;
+            case "marriage-goal":
+              loadMarriageGoalPlannerCalculator(modalBody);
+              break;
 
-          // Taxation
-          case "income-tax":
-            loadIncomeTaxCalculator(modalBody);
-            break;
-          case "capital-gains":
-            loadCapitalGainsTaxCalculator(modalBody);
-            break;
-          case "hra":
-            loadHRACalculator(modalBody);
-            break;
-          case "gratuity":
-            loadGratuityTaxCalculator(modalBody);
-            break;
-          case "tds":
-            loadTDSCalculator(modalBody);
-            break;
-          case "advance-tax":
-            loadAdvanceTaxCalculator(modalBody);
-            break;
+            // Taxation
+            case "income-tax":
+              loadIncomeTaxCalculator(modalBody);
+              break;
+            case "capital-gains":
+              loadCapitalGainsTaxCalculator(modalBody);
+              break;
+            case "hra":
+              loadHRACalculator(modalBody);
+              break;
+            case "gratuity":
+              loadGratuityTaxCalculator(modalBody);
+              break;
+            case "tds":
+              loadTDSCalculator(modalBody);
+              break;
+            case "advance-tax":
+              loadAdvanceTaxCalculator(modalBody);
+              break;
 
-          // Inflation
-          case "inflation":
-            loadInflationCalculator(modalBody);
-            break;
+            // Inflation
+            case "inflation":
+              loadInflationCalculator(modalBody);
+              break;
 
-          case "future-value":
-            loadFutureValueCalculator(modalBody);
-            break;
+            case "future-value":
+              loadFutureValueCalculator(modalBody);
+              break;
 
-          case "real-return":
-            loadRealReturnCalculator(modalBody);
-            break;
+            case "real-return":
+              loadRealReturnCalculator(modalBody);
+              break;
 
-          case "cost-delay":
-            loadCostOfDelayCalculator(modalBody);
-            break;
+            case "cost-delay":
+              loadCostOfDelayCalculator(modalBody);
+              break;
 
-          // Trading
-          case "option-profit":
-            loadOptionProfitCalculator(modalBody);
-            break;
+            // Trading
+            case "option-profit":
+              loadOptionProfitCalculator(modalBody);
+              break;
 
-          case "margin":
-            loadMarginCalculator(modalBody);
-            break;
+            case "margin":
+              loadMarginCalculator(modalBody);
+              break;
 
-          case "brokerage":
-            loadBrokerageCalculator(modalBody);
-            break;
+            case "brokerage":
+              loadBrokerageCalculator(modalBody);
+              break;
 
-          case "stop-loss":
-            loadStopLossCalculator(modalBody);
-            break;
+            case "stop-loss":
+              loadStopLossCalculator(modalBody);
+              break;
 
-          case "trailing-stop":
-            loadTrailingStopCalculator(modalBody);
-            break;
+            case "trailing-stop":
+              loadTrailingStopCalculator(modalBody);
+              break;
 
-          case "futures-pl":
-            loadFuturesPLCalculator(modalBody);
-            break;
+            case "futures-pl":
+              loadFuturesPLCalculator(modalBody);
+              break;
 
-          // Business
-          case "net-worth":
-            loadNetWorthCalculator(modalBody);
-            break;
+            // Business
+            case "net-worth":
+              loadNetWorthCalculator(modalBody);
+              break;
 
-          case "cash-flow":
-            loadCashFlowCalculator(modalBody);
-            break;
+            case "cash-flow":
+              loadCashFlowCalculator(modalBody);
+              break;
 
-          case "roi":
-            loadROICalculator(modalBody);
-            break;
+            case "roi":
+              loadROICalculator(modalBody);
+              break;
 
-          case "business-breakeven":
-            loadBusinessBreakevenCalculator(modalBody);
-            break;
+            case "business-breakeven":
+              loadBusinessBreakevenCalculator(modalBody);
+              break;
 
-          case "working-capital":
-            loadWorkingCapitalCalculator(modalBody);
-            break;
+            case "working-capital":
+              loadWorkingCapitalCalculator(modalBody);
+              break;
 
-          // Utility
-          case "currency":
-            loadCurrencyCalculator(modalBody);
-            break;
+            // Utility
+            case "currency":
+              loadCurrencyCalculator(modalBody);
+              break;
 
-          case "crypto":
-            loadCryptoCalculator(modalBody);
-            break;
+            case "crypto":
+              loadCryptoCalculator(modalBody);
+              break;
 
-          case "gold":
-            loadGoldCalculator(modalBody);
-            break;
+            case "gold":
+              loadGoldCalculator(modalBody);
+              break;
 
-          case "silver":
-            loadSilverCalculator(modalBody);
-            break;
+            case "silver":
+              loadSilverCalculator(modalBody);
+              break;
 
-          default:
-            modalBody.innerHTML =
-              '<p class="text-gray-600">Calculator coming soon...</p>';
+            default:
+              modalBody.innerHTML =
+                '<p class="text-gray-600">Calculator coming soon...</p>';
+          }
+        } catch (err) {
+          console.error("Error loading calculator", id, err);
+          modalBody.innerHTML =
+            '<p class="text-red-500">Failed to load calculator. Please try again.</p>';
         }
       }
 

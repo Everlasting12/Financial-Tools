@@ -501,3 +501,159 @@ function calculateAdvanceTax() {
 
   document.getElementById("atResult").classList.remove("hidden");
 }
+
+function loadIncomeTaxCalculator(container) {
+  container.innerHTML = `
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Your total annual gross salary before any deductions.">Gross Annual Salary (₹)</label>
+                    <input type="text" id="taxSalary" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 12,00,000" 
+                           oninput="handleNumberInput(event); clearError('taxSalary')" 
+                           onblur="formatInputNumber(event)">
+                    <p id="taxSalary-error" class="hidden text-red-500 text-sm mt-1"></p>
+                </div>
+
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total investments under 80C, 80D, HRA, etc. (Applicable only for Old Regime)">Total Deductions (₹)</label>
+                    <input type="text" id="taxDeductions" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 2,50,000" 
+                           oninput="handleNumberInput(event); clearError('taxDeductions')" 
+                           onblur="formatInputNumber(event)">
+                    <p id="taxDeductions-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <p class="text-[10px] text-gray-400 mt-1 uppercase italic">* Standard deduction of ₹75,000 is automatically applied to New Regime.</p>
+                </div>
+
+                <div class="input-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Age Category</label>
+                    <select id="taxAge" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                        <option value="normal">Below 60 years</option>
+                        <option value="senior">Senior Citizen (60-80 years)</option>
+                        <option value="super">Super Senior (80+ years)</option>
+                    </select>
+                </div>
+
+                <button onclick="calculateIncomeTax()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-4 rounded-lg font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider text-sm">
+                    Compare Tax Regimes
+                </button>
+            </div>
+
+            <div id="taxResult" class="hidden animate-fade-in space-y-6">
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="relative p-6 rounded-2xl border-2 transition-all" id="newRegimeCard">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-sm font-bold uppercase tracking-widest text-gray-500">New Regime (FY 25-26)</h4>
+                                <p class="text-3xl font-black text-gray-900" id="newTaxVal">-</p>
+                            </div>
+                            <span id="newTag" class="hidden px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Recommended</span>
+                        </div>
+                        <p class="text-xs text-gray-400" id="newRegimeNote"></p>
+                    </div>
+
+                    <div class="relative p-6 rounded-2xl border-2 transition-all" id="oldRegimeCard">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-sm font-bold uppercase tracking-widest text-gray-500">Old Regime (FY 25-26)</h4>
+                                <p class="text-3xl font-black text-gray-900" id="oldTaxVal">-</p>
+                            </div>
+                            <span id="oldTag" class="hidden px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Recommended</span>
+                        </div>
+                        <p class="text-xs text-gray-400" id="oldRegimeNote"></p>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                    <p class="text-xs text-indigo-700 leading-relaxed">
+                        <strong>Tax Hack:</strong> In the New Regime, income up to ₹12 Lakh is effectively tax-free if you include the Standard Deduction of ₹75,000 and Section 87A rebate.
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function calculateIncomeTax() {
+  const salary = parseFormattedNumber(
+    document.getElementById("taxSalary").value
+  );
+  const deductions =
+    parseFormattedNumber(document.getElementById("taxDeductions").value) || 0;
+  const age = document.getElementById("taxAge").value;
+
+  let isValid = true;
+  if (!salary || salary <= 0) {
+    showError("taxSalary", "Please enter your annual salary");
+    isValid = false;
+  }
+  if (!isValid) return;
+
+  // --- NEW REGIME CALCULATION (FY 2025-26) ---
+  const stdDeductionNew = 75000;
+  let taxableNew = Math.max(0, salary - stdDeductionNew);
+  let taxNew = 0;
+
+  // Slab: 0-4L: 0% | 4-8L: 5% | 8-12L: 10% | 12-16L: 15% | 16-20L: 20% | >20L: 25%
+  if (taxableNew > 2000000) taxNew += (taxableNew - 2000000) * 0.25 + 200000;
+  else if (taxableNew > 1600000)
+    taxNew += (taxableNew - 1600000) * 0.2 + 120000;
+  else if (taxableNew > 1200000)
+    taxNew += (taxableNew - 1200000) * 0.15 + 60000;
+  else if (taxableNew > 800000) taxNew += (taxableNew - 800000) * 0.1 + 20000;
+  else if (taxableNew > 400000) taxNew += (taxableNew - 400000) * 0.05;
+
+  // 87A Rebate for New Regime: Full rebate if taxable income <= 12L
+  if (taxableNew <= 1200000) taxNew = 0;
+
+  // --- OLD REGIME CALCULATION ---
+  const stdDeductionOld = 50000;
+  let taxableOld = Math.max(0, salary - deductions - stdDeductionOld);
+  let taxOld = 0;
+  let slabLimit = 250000;
+  if (age === "senior") slabLimit = 300000;
+  if (age === "super") slabLimit = 500000;
+
+  if (taxableOld > 1000000) taxOld += (taxableOld - 1000000) * 0.3 + 112500;
+  else if (taxableOld > 500000) taxOld += (taxableOld - 500000) * 0.2 + 12500;
+  else if (taxableOld > slabLimit) taxOld += (taxableOld - slabLimit) * 0.05;
+
+  // 87A Rebate for Old Regime: Full rebate if taxable income <= 5L
+  if (taxableOld <= 500000) taxOld = 0;
+
+  // Add 4% Cess
+  const finalTaxNew = taxNew * 1.04;
+  const finalTaxOld = taxOld * 1.04;
+
+  // UI Updates
+  document.getElementById("newTaxVal").textContent =
+    "₹" + formatNumber(finalTaxNew.toFixed(0));
+  document.getElementById("oldTaxVal").textContent =
+    "₹" + formatNumber(finalTaxOld.toFixed(0));
+
+  // Styling Recommendations
+  const newCard = document.getElementById("newRegimeCard");
+  const oldCard = document.getElementById("oldRegimeCard");
+  const newTag = document.getElementById("newTag");
+  const oldTag = document.getElementById("oldTag");
+
+  if (finalTaxNew <= finalTaxOld) {
+    newCard.className =
+      "relative p-6 rounded-2xl border-2 border-green-500 bg-green-50/30";
+    oldCard.className =
+      "relative p-6 rounded-2xl border-2 border-gray-100 bg-white";
+    newTag.classList.remove("hidden");
+    oldTag.classList.add("hidden");
+  } else {
+    oldCard.className =
+      "relative p-6 rounded-2xl border-2 border-green-500 bg-green-50/30";
+    newCard.className =
+      "relative p-6 rounded-2xl border-2 border-gray-100 bg-white";
+    oldTag.classList.remove("hidden");
+    newTag.classList.add("hidden");
+  }
+
+  document.getElementById("taxResult").classList.remove("hidden");
+}
