@@ -1002,7 +1002,7 @@ function loadPensionCalculator(container) {
                     </div>
                 </div>
 
-                <button onclick="calculatePension()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-4 rounded-lg font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider text-sm">
+                <button onclick="calculatePension()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-4 rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer tracking-wider text-sm">
                     Calculate Retirement Plan
                 </button>
             </div>
