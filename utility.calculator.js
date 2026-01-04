@@ -74,7 +74,7 @@ function loadCryptoCalculator(container) {
                     <input type="text" id="crySell" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
                            placeholder="Current market price" oninput="handleNumberInput(event)">
                 </div>
-                <button onclick="calculateCrypto()" class="w-full bg-gradient-to-r from-orange-500 to-yellow-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Crypto Value</button>
+                <button onclick="calculateCrypto()" class="w-full bg-gradient-to-r from-orange-500 to-yellow-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Crypto Value</button>
             </div>
             <div id="cryResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-gray-800 to-gray-900 border border-yellow-500">
@@ -144,7 +144,7 @@ function loadGoldCalculator(container) {
                     <input type="text" id="goldRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
                            placeholder="e.g., 7200" oninput="handleNumberInput(event)">
                 </div>
-                <button onclick="calculateGold()" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-700 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Gold Value</button>
+                <button onclick="calculateGold()" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-700 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Gold Value</button>
             </div>
             <div id="goldResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-yellow-600 to-yellow-800">
@@ -195,7 +195,7 @@ function loadSilverCalculator(container) {
                     <input type="text" id="silRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
                            placeholder="e.g., 90000" oninput="handleNumberInput(event)">
                 </div>
-                <button onclick="calculateSilver()" class="w-full bg-gradient-to-r from-gray-400 to-gray-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Silver Value</button>
+                <button onclick="calculateSilver()" class="w-full bg-gradient-to-r from-gray-400 to-gray-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Silver Value</button>
             </div>
             <div id="silResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-gray-500 to-gray-700">

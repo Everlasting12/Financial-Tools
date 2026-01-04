@@ -47,7 +47,7 @@ function loadFDCalculator(container) {
                 </div>
 
                 <button onclick="calculateFD()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Returns
                 </button>
             </div>
@@ -180,7 +180,7 @@ function loadRDCalculator(container) {
                 </div>
 
                 <button onclick="calculateRD()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Maturity
                 </button>
             </div>
@@ -318,7 +318,7 @@ function loadPPFCalculator(container) {
                 </div>
 
                 <button onclick="calculatePPF()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Maturity
                 </button>
             </div>
@@ -472,7 +472,7 @@ function loadNPSCalculator(container) {
                 </div>
 
                 <button onclick="calculateNPS()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Corpus
                 </button>
             </div>
@@ -639,7 +639,7 @@ function loadEPFCalculator(container) {
                 </div>
 
                 <button onclick="calculateEPF()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate EPF Corpus
                 </button>
             </div>
@@ -808,7 +808,7 @@ function loadPostOfficeSchemeCalculator(container) {
                 </div>
 
                 <button onclick="calculatePostOfficeScheme()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Maturity
                 </button>
             </div>
@@ -955,7 +955,7 @@ function loadSavingsAccountInterestCalculator(container) {
                 </div>
 
                 <button onclick="calculateSavingsInterest()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Interest
                 </button>
             </div>

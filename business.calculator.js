@@ -14,7 +14,7 @@ function loadNetWorthCalculator(container) {
                            placeholder="Loans, debts, mortgages" oninput="handleNumberInput(event); clearError('nwLiabilities')" onblur="formatInputNumber(event)">
                     <p id="nwLiabilities-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateNetWorth()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Net Worth</button>
+                <button onclick="calculateNetWorth()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Net Worth</button>
             </div>
             <div id="nwResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -69,7 +69,7 @@ function loadCashFlowCalculator(container) {
                            placeholder="Rent, food, EMI, bills" oninput="handleNumberInput(event); clearError('cfExpenses')" onblur="formatInputNumber(event)">
                     <p id="cfExpenses-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateCashFlow()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Cash Flow</button>
+                <button onclick="calculateCashFlow()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Cash Flow</button>
             </div>
             <div id="cfResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -119,7 +119,7 @@ function loadROICalculator(container) {
                     <input type="text" id="roiFinalVal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
                            oninput="handleNumberInput(event); clearError('roiFinalVal')" onblur="formatInputNumber(event)">
                 </div>
-                <button onclick="calculateROI()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate ROI</button>
+                <button onclick="calculateROI()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate ROI</button>
             </div>
             <div id="roiResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -173,7 +173,7 @@ function loadBusinessBreakevenCalculator(container) {
                     <input type="text" id="bePrice" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
                            oninput="handleNumberInput(event)" onblur="formatInputNumber(event)">
                 </div>
-                <button onclick="calculateBreakeven()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Breakeven</button>
+                <button onclick="calculateBreakeven()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Breakeven</button>
             </div>
             <div id="beResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -230,7 +230,7 @@ function loadWorkingCapitalCalculator(container) {
                     <input type="text" id="wcLiabilities" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
                            placeholder="Payables, Short-term debt" oninput="handleNumberInput(event)" onblur="formatInputNumber(event)">
                 </div>
-                <button onclick="calculateWorkingCapital()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Working Capital</button>
+                <button onclick="calculateWorkingCapital()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Working Capital</button>
             </div>
             <div id="wcResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">

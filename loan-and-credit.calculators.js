@@ -574,7 +574,7 @@ function loadBalanceTransferCalculator(container) {
                            placeholder="e.g., 5,000" oninput="handleNumberInput(event); clearError('btFee')" onblur="formatInputNumber(event)">
                     <p id="btFee-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateBalanceTransfer()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Savings</button>
+                <button onclick="calculateBalanceTransfer()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Savings</button>
             </div>
             <div id="btResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -676,7 +676,7 @@ function loadCreditCardInterestCalculator(container) {
                            placeholder="Amount you will pay" oninput="handleNumberInput(event); clearError('ccPayment')" onblur="formatInputNumber(event)">
                     <p id="ccPayment-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateCreditCard()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Interest</button>
+                <button onclick="calculateCreditCard()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Interest</button>
             </div>
             <div id="ccResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-red-600 to-orange-600">

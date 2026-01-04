@@ -21,7 +21,7 @@ function loadCapitalGainsTaxCalculator(container) {
                         <option value="STCG">Short Term (Holding < 1 Year)</option>
                     </select>
                 </div>
-                <button onclick="calculateCapitalGains()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Tax</button>
+                <button onclick="calculateCapitalGains()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Tax</button>
             </div>
             <div id="cgResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-blue-700">
@@ -93,7 +93,7 @@ function loadHRACalculator(container) {
                         <option value="0.4">Non-Metro</option>
                     </select>
                 </div>
-                <button onclick="calculateHRA()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Exemption</button>
+                <button onclick="calculateHRA()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Exemption</button>
             </div>
             <div id="hraResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-purple-600">
@@ -152,7 +152,7 @@ function loadGratuityTaxCalculator(container) {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Gratuity Received (₹)</label>
                     <input type="text" id="gtReceived" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Amount received" oninput="handleNumberInput(event)">
                 </div>
-                <button onclick="calculateGratuity()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Tax</button>
+                <button onclick="calculateGratuity()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Tax</button>
             </div>
             <div id="gtResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-green-600">

@@ -25,7 +25,7 @@ function loadOptionProfitCalculator(container) {
                         <option value="sell">Sell (Short)</option>
                     </select>
                 </div>
-                <button onclick="calculateOptionPL()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Profit/Loss</button>
+                <button onclick="calculateOptionPL()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Profit/Loss</button>
             </div>
             <div id="optResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-blue-700">
@@ -81,7 +81,7 @@ function loadMarginCalculator(container) {
                     <input type="text" id="marPercent" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
                            placeholder="e.g., 20">
                 </div>
-                <button onclick="calculateMargin()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Required Funds</button>
+                <button onclick="calculateMargin()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Required Funds</button>
             </div>
             <div id="marResult" class="hidden animate-fade-in">
                 <div class="bg-gray-50 rounded-xl p-6 space-y-4 border border-gray-200">
@@ -134,7 +134,7 @@ function loadBrokerageCalculator(container) {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
                     <input type="text" id="broQty" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
                 </div>
-                <button onclick="calculateBrokerage()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Net P&L</button>
+                <button onclick="calculateBrokerage()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Net P&L</button>
             </div>
             <div id="broResult" class="hidden animate-fade-in">
                 <div class="bg-gray-50 rounded-xl p-6 space-y-3">
@@ -194,7 +194,7 @@ function loadStopLossCalculator(container) {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Risk Percentage (%)</label>
                     <input type="text" id="slRisk" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 2">
                 </div>
-                <button onclick="calculateStopLoss()" class="w-full bg-red-500 text-white py-3 rounded-lg font-semibold">Calculate Stop Loss</button>
+                <button onclick="calculateStopLoss()" class="w-full bg-red-500 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate Stop Loss</button>
             </div>
             <div id="slResult" class="hidden animate-fade-in">
                 <div class="bg-red-50 p-6 rounded-xl border border-red-200">
@@ -268,7 +268,7 @@ function loadFuturesPLCalculator(container) {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Contract Lot Size</label>
                     <input type="text" id="futLot" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 25 (BankNifty)">
                 </div>
-                <button onclick="calculateFuturesPL()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate P&L</button>
+                <button onclick="calculateFuturesPL()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Calculate P&L</button>
             </div>
             <div id="futResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white bg-gradient-to-r from-gray-700 to-gray-900">

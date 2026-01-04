@@ -50,7 +50,7 @@ function loadStockAverageCalculator(container) {
                 </div>
 
                 <button onclick="calculateStockAverage()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
                     Calculate Average
                 </button>
             </div>
@@ -562,23 +562,38 @@ function loadXIRRCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Initial Investment (₹)</label>
-                    <input type="text" id="xirrInitial" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 1,00,000" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The total amount of money you initially invested.">Initial Investment (₹)</label>
+                    <input type="text" id="xirrInitial" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                           placeholder="e.g., 1,00,000" oninput="handleNumberInput(event); clearError('xirrInitial')" onblur="formatInputNumber(event)">
+                    <p id="xirrInitial-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Final/Current Value (₹)</label>
-                    <input type="text" id="xirrFinal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 1,50,000" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The current market value or the total amount received at the end.">Current/Final Value (₹)</label>
+                    <input type="text" id="xirrFinal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                           placeholder="e.g., 1,50,000" oninput="handleNumberInput(event); clearError('xirrFinal')" onblur="formatInputNumber(event)">
+                    <p id="xirrFinal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Investment Duration (Years)</label>
-                    <input type="text" id="xirrYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 3.5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total number of years the money was invested.">Investment Duration (Years)</label>
+                    <input type="text" id="xirrYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                           placeholder="e.g., 3.5" oninput="handleNumberInput(event); clearError('xirrYears')">
+                    <p id="xirrYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateXIRR()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Annualized Return</button>
+                <button onclick="calculateXIRR()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Annualized Return</button>
             </div>
             <div id="xirrResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white bg-indigo-700">
-                    <span class="block text-sm opacity-80 mb-1" title="The annualized internal rate of return for your investment.">Annualized Return (XIRR/CAGR):</span>
-                    <span class="text-4xl font-bold" id="xirrValue">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Performance Result</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="The Compounded Annual Growth Rate of your investment.">XIRR / CAGR:</span>
+                            <span class="text-4xl font-bold" id="xirrValue">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="Total absolute profit earned.">Absolute Profit:</span>
+                            <span class="text-xl font-bold" id="xirrProfit">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -586,12 +601,35 @@ function loadXIRRCalculator(container) {
 }
 
 function calculateXIRR() {
-  const p = parseFormattedNumber(document.getElementById("xirrInitial").value);
-  const f = parseFormattedNumber(document.getElementById("xirrFinal").value);
-  const t = parseFloat(document.getElementById("xirrYears").value);
-  if (!p || !f || !t) return;
-  const cagr = (Math.pow(f / p, 1 / t) - 1) * 100;
+  const initial = parseFormattedNumber(
+    document.getElementById("xirrInitial").value
+  );
+  const finalVal = parseFormattedNumber(
+    document.getElementById("xirrFinal").value
+  );
+  const years = parseFloat(document.getElementById("xirrYears").value);
+
+  let valid = true;
+  if (!initial || initial <= 0) {
+    showError("xirrInitial", "Enter valid investment");
+    valid = false;
+  }
+  if (!finalVal || finalVal <= 0) {
+    showError("xirrFinal", "Enter valid final value");
+    valid = false;
+  }
+  if (!years || years <= 0) {
+    showError("xirrYears", "Enter valid duration");
+    valid = false;
+  }
+  if (!valid) return;
+
+  const cagr = (Math.pow(finalVal / initial, 1 / years) - 1) * 100;
+  const profit = finalVal - initial;
+
   document.getElementById("xirrValue").textContent = cagr.toFixed(2) + "%";
+  document.getElementById("xirrProfit").textContent =
+    "₹" + formatNumber(profit.toFixed(2));
   document.getElementById("xirrResult").classList.remove("hidden");
 }
 
@@ -600,23 +638,38 @@ function loadPositionSizeCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Trading Capital (₹)</label>
-                    <input type="text" id="psCap" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total amount of money in your trading account.">Trading Capital (₹)</label>
+                    <input type="text" id="psCapital" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 2,00,000" oninput="handleNumberInput(event); clearError('psCapital')" onblur="formatInputNumber(event)">
+                    <p id="psCapital-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Risk per Trade (%)</label>
-                    <input type="text" id="psRiskPct" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The maximum percentage of capital you are willing to lose on this trade.">Risk per Trade (%)</label>
+                    <input type="text" id="psRisk" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 1" value="1" oninput="handleNumberInput(event); clearError('psRisk')">
+                    <p id="psRisk-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Stop Loss Amount per Share (₹)</label>
-                    <input type="text" id="psSl" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Entry Price - SL Price">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The difference between your entry price and your stop-loss price.">Stop Loss Points (₹)</label>
+                    <input type="text" id="psPoints" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 20" oninput="handleNumberInput(event); clearError('psPoints')">
+                    <p id="psPoints-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculatePositionSize()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Quantity</button>
+                <button onclick="calculatePositionSize()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Position Size</button>
             </div>
             <div id="psResult" class="hidden animate-fade-in">
-                <div class="bg-gray-50 p-6 rounded-xl border">
-                    <span class="block text-sm text-gray-600" title="The maximum number of shares you should buy to stay within your risk limit.">Recommended Quantity:</span>
-                    <span class="text-3xl font-bold" id="psQty">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Risk Recommendation</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="The exact number of shares/units you should buy.">Quantity to Buy:</span>
+                            <span class="text-4xl font-bold" id="psQty">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="The total amount of cash at risk.">Cash at Risk:</span>
+                            <span class="text-xl font-bold" id="psCashRisk">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -624,12 +677,33 @@ function loadPositionSizeCalculator(container) {
 }
 
 function calculatePositionSize() {
-  const cap = parseFormattedNumber(document.getElementById("psCap").value);
-  const risk = parseFloat(document.getElementById("psRiskPct").value) / 100;
-  const sl = parseFloat(document.getElementById("psSl").value);
-  if (!cap || !sl) return;
-  const qty = (cap * risk) / sl;
-  document.getElementById("psQty").textContent = Math.floor(qty) + " Shares";
+  const capital = parseFormattedNumber(
+    document.getElementById("psCapital").value
+  );
+  const riskPct = parseFloat(document.getElementById("psRisk").value);
+  const slPoints = parseFloat(document.getElementById("psPoints").value);
+
+  let valid = true;
+  if (!capital || capital <= 0) {
+    showError("psCapital", "Enter valid capital");
+    valid = false;
+  }
+  if (!riskPct || riskPct <= 0) {
+    showError("psRisk", "Enter valid risk %");
+    valid = false;
+  }
+  if (!slPoints || slPoints <= 0) {
+    showError("psPoints", "Enter valid SL points");
+    valid = false;
+  }
+  if (!valid) return;
+
+  const cashRisk = capital * (riskPct / 100);
+  const qty = cashRisk / slPoints;
+
+  document.getElementById("psQty").textContent = Math.floor(qty) + " Units";
+  document.getElementById("psCashRisk").textContent =
+    "₹" + formatNumber(cashRisk.toFixed(2));
   document.getElementById("psResult").classList.remove("hidden");
 }
 
@@ -638,48 +712,81 @@ function loadStepUpSIPCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Monthly SIP Amount (₹)</label>
-                    <input type="text" id="ssSip" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Amount to be invested at the start.">Initial Monthly SIP (₹)</label>
+                    <input type="text" id="suSip" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 10,000" oninput="handleNumberInput(event); clearError('suSip')" onblur="formatInputNumber(event)">
+                    <p id="suSip-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Annual Step-Up (%)</label>
-                    <input type="text" id="ssStep" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="10">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Percentage increase in SIP amount every year.">Annual Step-up (%)</label>
+                    <input type="text" id="suStep" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 10" value="10" oninput="handleNumberInput(event); clearError('suStep')">
+                    <p id="suStep-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Expected Return (%)</label>
-                    <input type="text" id="ssRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="12">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Number of years you plan to invest.">Duration (Years)</label>
+                    <input type="text" id="suYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 20" oninput="handleNumberInput(event); clearError('suYears')">
+                    <p id="suYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tenure (Years)</label>
-                    <input type="text" id="ssYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 20">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Expected annual rate of return.">Expected Return (%)</label>
+                    <input type="text" id="suRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 12" value="12" oninput="handleNumberInput(event); clearError('suRate')">
+                    <p id="suRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateStepUp()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Future Value</button>
+                <button onclick="calculateStepUpSIP()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Growth</button>
             </div>
-            <div id="ssResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white bg-indigo-700">
-                    <span class="block text-sm opacity-80 mb-1" title="The total maturity value including your annual increments.">Maturity Amount:</span>
-                    <span class="text-4xl font-bold" id="ssFinal">-</span>
+            <div id="suResult" class="hidden animate-fade-in">
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Step-Up SIP Maturity</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="Final corpus at maturity.">Future Value:</span>
+                            <span class="text-4xl font-bold" id="suValue">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="Total amount of cash actually invested.">Total Invested:</span>
+                            <span class="text-xl font-bold" id="suInvested">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     `;
 }
 
-function calculateStepUp() {
-  let sip = parseFormattedNumber(document.getElementById("ssSip").value);
-  const step = parseFloat(document.getElementById("ssStep").value) / 100;
-  const rate = parseFloat(document.getElementById("ssRate").value) / 100 / 12;
-  const years = parseInt(document.getElementById("ssYears").value);
+function calculateStepUpSIP() {
+  let sip = parseFormattedNumber(document.getElementById("suSip").value);
+  const step = parseFloat(document.getElementById("suStep").value) / 100;
+  const years = parseInt(document.getElementById("suYears").value);
+  const rate = parseFloat(document.getElementById("suRate").value) / 100 / 12;
 
-  let totalValue = 0;
+  let valid = true;
+  if (!sip) {
+    showError("suSip", "Enter SIP amount");
+    valid = false;
+  }
+  if (!years) {
+    showError("suYears", "Enter duration");
+    valid = false;
+  }
+  if (!valid) return;
+
+  let totalFV = 0;
+  let totalInvested = 0;
+
   for (let i = 1; i <= years * 12; i++) {
-    totalValue = (totalValue + sip) * (1 + rate);
+    totalFV = (totalFV + sip) * (1 + rate);
+    totalInvested += sip;
     if (i % 12 === 0) sip *= 1 + step;
   }
 
-  document.getElementById("ssFinal").textContent =
-    "₹" + formatNumber(Math.round(totalValue));
-  document.getElementById("ssResult").classList.remove("hidden");
+  document.getElementById("suValue").textContent =
+    "₹" + formatNumber(Math.round(totalFV));
+  document.getElementById("suInvested").textContent =
+    "₹" + formatNumber(Math.round(totalInvested));
+  document.getElementById("suResult").classList.remove("hidden");
 }
 
 function loadSWPCalculator(container) {
@@ -687,23 +794,38 @@ function loadSWPCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Lumpsum Amount (₹)</label>
-                    <input type="text" id="swpPrincipal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total initial amount in the fund.">Total Investment (₹)</label>
+                    <input type="text" id="swpPrincipal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 20,00,000" oninput="handleNumberInput(event); clearError('swpPrincipal')" onblur="formatInputNumber(event)">
+                    <p id="swpPrincipal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Withdrawal (₹)</label>
-                    <input type="text" id="swpWithdrawal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Amount to withdraw every month.">Monthly Withdrawal (₹)</label>
+                    <input type="text" id="swpWithdrawal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 20,000" oninput="handleNumberInput(event); clearError('swpWithdrawal')" onblur="formatInputNumber(event)">
+                    <p id="swpWithdrawal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Expected Return (%)</label>
-                    <input type="text" id="swpRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="8">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Duration of withdrawal plan.">Duration (Years)</label>
+                    <input type="text" id="swpYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 10" oninput="handleNumberInput(event); clearError('swpYears')">
+                    <p id="swpYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateSWP()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Balance</button>
+                <button onclick="calculateSWP()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Estimate Balance</button>
             </div>
             <div id="swpResult" class="hidden animate-fade-in">
-                <div class="bg-gray-50 p-6 rounded-xl border space-y-3">
-                    <p class="text-sm text-gray-600" title="Balance remaining after 10 years of withdrawal.">Balance after 10 Years:</p>
-                    <p class="text-3xl font-bold text-indigo-700" id="swpFinal">-</p>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">SWP Summary</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="Final balance remaining in the fund.">Remaining Balance:</span>
+                            <span class="text-4xl font-bold" id="swpValue">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="Total amount withdrawn over the years.">Total Withdrawn:</span>
+                            <span class="text-xl font-bold" id="swpTotalWithdrawn">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -711,25 +833,39 @@ function loadSWPCalculator(container) {
 }
 
 function calculateSWP() {
-  let balance = parseFormattedNumber(
+  let principal = parseFormattedNumber(
     document.getElementById("swpPrincipal").value
   );
   const withdrawal = parseFormattedNumber(
     document.getElementById("swpWithdrawal").value
   );
-  const r = parseFloat(document.getElementById("swpRate").value) / 100 / 12;
+  const years = parseFloat(document.getElementById("swpYears").value);
+  const rate = 0.08 / 12; // Standard 8% return assumed for SWP funds
 
-  for (let m = 1; m <= 120; m++) {
-    // Calculate for 10 years
-    balance = balance * (1 + r) - withdrawal;
-    if (balance < 0) {
-      balance = 0;
-      break;
-    }
+  let valid = true;
+  if (!principal) {
+    showError("swpPrincipal", "Enter total investment");
+    valid = false;
+  }
+  if (!withdrawal) {
+    showError("swpWithdrawal", "Enter withdrawal amount");
+    valid = false;
+  }
+  if (!years) {
+    showError("swpYears", "Enter duration");
+    valid = false;
+  }
+  if (!valid) return;
+
+  const months = years * 12;
+  for (let i = 0; i < months; i++) {
+    principal = principal * (1 + rate) - withdrawal;
   }
 
-  document.getElementById("swpFinal").textContent =
-    "₹" + formatNumber(Math.round(balance));
+  document.getElementById("swpValue").textContent =
+    "₹" + formatNumber(Math.max(0, Math.round(principal)));
+  document.getElementById("swpTotalWithdrawn").textContent =
+    "₹" + formatNumber(Math.round(withdrawal * months));
   document.getElementById("swpResult").classList.remove("hidden");
 }
 
@@ -738,26 +874,26 @@ function loadDividendYieldCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Stock Price (₹)</label>
-                    <input type="text" id="divPrice" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
-                           placeholder="e.g., 2500" oninput="handleNumberInput(event); clearError('divPrice')" onblur="formatInputNumber(event)">
-                    <p id="divPrice-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Price of one share in the market.">Stock Price (₹)</label>
+                    <input type="text" id="dyPrice" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 2,500" oninput="handleNumberInput(event); clearError('dyPrice')" onblur="formatInputNumber(event)">
+                    <p id="dyPrice-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Annual Dividend per Share (₹)</label>
-                    <input type="text" id="divAmount" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
-                           placeholder="e.g., 50" oninput="handleNumberInput(event); clearError('divAmount')" onblur="formatInputNumber(event)">
-                    <p id="divAmount-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total dividend paid per share in a year.">Annual Dividend (₹)</label>
+                    <input type="text" id="dyDiv" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 45" oninput="handleNumberInput(event); clearError('dyDiv')" onblur="formatInputNumber(event)">
+                    <p id="dyDiv-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateDividendYield()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Yield</button>
+                <button onclick="calculateDividendYield()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Yield</button>
             </div>
-            <div id="divResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-teal-500 to-emerald-600">
-                    <h3 class="text-lg font-semibold mb-4">Dividend Analysis</h3>
+            <div id="dyResult" class="hidden animate-fade-in">
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Yield Result</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
-                            <span title="The percentage return on your investment in the form of dividends.">Dividend Yield (%):</span>
-                            <span class="text-4xl font-bold" id="divYieldFinal">-</span>
+                            <span title="The percentage of stock price paid out as dividends annually.">Dividend Yield:</span>
+                            <span class="text-4xl font-bold" id="dyValue">-</span>
                         </div>
                     </div>
                 </div>
@@ -767,38 +903,56 @@ function loadDividendYieldCalculator(container) {
 }
 
 function calculateDividendYield() {
-  const price = parseFormattedNumber(document.getElementById("divPrice").value);
-  const div = parseFormattedNumber(document.getElementById("divAmount").value);
-  if (!price || !div) return;
+  const price = parseFormattedNumber(document.getElementById("dyPrice").value);
+  const dividend = parseFormattedNumber(document.getElementById("dyDiv").value);
 
-  const yieldVal = (div / price) * 100;
-  document.getElementById("divYieldFinal").textContent =
-    yieldVal.toFixed(2) + "%";
-  document.getElementById("divResult").classList.remove("hidden");
+  let valid = true;
+  if (!price || price <= 0) {
+    showError("dyPrice", "Enter valid price");
+    valid = false;
+  }
+  if (!dividend || dividend < 0) {
+    showError("dyDiv", "Enter valid dividend");
+    valid = false;
+  }
+  if (!valid) return;
+
+  const yieldPct = (dividend / price) * 100;
+  document.getElementById("dyValue").textContent = yieldPct.toFixed(2) + "%";
+  document.getElementById("dyResult").classList.remove("hidden");
 }
 function loadRiskRewardCalculator(container) {
   container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Entry Price (₹)</label>
-                    <input type="text" id="rrEntry" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 500" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Price at which you buy.">Entry Price (₹)</label>
+                    <input type="text" id="rrEntry" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 500" oninput="handleNumberInput(event); clearError('rrEntry')" onblur="formatInputNumber(event)">
+                    <p id="rrEntry-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Target Price (₹)</label>
-                    <input type="text" id="rrTarget" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 550" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Price level to lock in profits.">Target Price (₹)</label>
+                    <input type="text" id="rrTarget" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 600" oninput="handleNumberInput(event); clearError('rrTarget')" onblur="formatInputNumber(event)">
+                    <p id="rrTarget-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Stop Loss (₹)</label>
-                    <input type="text" id="rrStop" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 480" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Price level to exit and limit losses.">Stop Loss Price (₹)</label>
+                    <input type="text" id="rrStop" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 475" oninput="handleNumberInput(event); clearError('rrStop')" onblur="formatInputNumber(event)">
+                    <p id="rrStop-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateRR()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Ratio</button>
+                <button onclick="calculateRiskReward()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Analyze Ratio</button>
             </div>
             <div id="rrResult" class="hidden animate-fade-in">
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600" title="The ratio comparing potential profit to potential loss. A ratio of 1:2 or higher is usually preferred.">Risk-to-Reward Ratio:</span>
-                        <span class="text-3xl font-bold text-indigo-700" id="rrRatioValue">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Trade Ratio</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="Potential Profit / Potential Loss.">R:R Ratio:</span>
+                            <span class="text-4xl font-bold" id="rrRatio">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -806,21 +960,33 @@ function loadRiskRewardCalculator(container) {
     `;
 }
 
-function calculateRR() {
+function calculateRiskReward() {
   const entry = parseFormattedNumber(document.getElementById("rrEntry").value);
   const target = parseFormattedNumber(
     document.getElementById("rrTarget").value
   );
   const stop = parseFormattedNumber(document.getElementById("rrStop").value);
 
-  if (!entry || !target || !stop) return;
+  let valid = true;
+  if (!entry) {
+    showError("rrEntry", "Enter entry price");
+    valid = false;
+  }
+  if (!target) {
+    showError("rrTarget", "Enter target price");
+    valid = false;
+  }
+  if (!stop) {
+    showError("rrStop", "Enter stop loss");
+    valid = false;
+  }
+  if (!valid) return;
 
   const risk = Math.abs(entry - stop);
   const reward = Math.abs(target - entry);
   const ratio = reward / risk;
 
-  document.getElementById("rrRatioValue").textContent =
-    "1 : " + ratio.toFixed(2);
+  document.getElementById("rrRatio").textContent = "1 : " + ratio.toFixed(2);
   document.getElementById("rrResult").classList.remove("hidden");
 }
 
@@ -829,66 +995,36 @@ function loadBreakEvenCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Fixed Costs (₹)</label>
-                    <input type="text" id="beFixedCosts" 
-                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
-                           placeholder="e.g., Rent, Salaries, Insurance"
-                           oninput="handleNumberInput(event); clearError('beFixedCosts')"
-                           onblur="formatInputNumber(event)">
-                    <p id="beFixedCosts-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Ongoing costs like rent and salaries that don't change with sales.">Total Fixed Costs (₹)</label>
+                    <input type="text" id="beFixed" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 50,000" oninput="handleNumberInput(event); clearError('beFixed')" onblur="formatInputNumber(event)">
+                    <p id="beFixed-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Variable Cost per Unit (₹)</label>
-                    <input type="text" id="beVariableCost" 
-                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
-                           placeholder="e.g., Materials, Packaging"
-                           oninput="handleNumberInput(event); clearError('beVariableCost')"
-                           onblur="formatInputNumber(event)">
-                    <p id="beVariableCost-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The cost of producing one single unit.">Variable Cost per Unit (₹)</label>
+                    <input type="text" id="beVar" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 100" oninput="handleNumberInput(event); clearError('beVar')" onblur="formatInputNumber(event)">
+                    <p id="beVar-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Selling Price per Unit (₹)</label>
-                    <input type="text" id="beSellingPrice" 
-                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
-                           placeholder="e.g., Final price to customer"
-                           oninput="handleNumberInput(event); clearError('beSellingPrice')"
-                           onblur="formatInputNumber(event)">
-                    <p id="beSellingPrice-error" class="hidden text-red-500 text-sm mt-1"></p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The price you charge customers per unit.">Selling Price per Unit (₹)</label>
+                    <input type="text" id="bePrice" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 250" oninput="handleNumberInput(event); clearError('bePrice')" onblur="formatInputNumber(event)">
+                    <p id="bePrice-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-
-                <button onclick="calculateBreakEven()" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
-                    Calculate Breakeven Point
-                </button>
+                <button onclick="calculateBreakEven()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Break Even</button>
             </div>
-
             <div id="beResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
-                    <h3 class="text-lg font-semibold mb-4">Breakeven Analysis</h3>
+                    <h3 class="text-lg font-semibold mb-4">Break-Even Point</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
-                            <span title="The number of units you need to sell to cover all your costs.">Breakeven Units:</span>
+                            <span title="The number of units you must sell to reach zero profit.">Units Required:</span>
                             <span class="text-4xl font-bold" id="beUnits">-</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span title="The total sales revenue required to reach a zero-profit, zero-loss state.">Breakeven Sales:</span>
-                            <span class="text-xl font-bold" id="beSalesAmount">-</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-50 rounded-xl p-6">
-                    <h4 class="font-semibold text-gray-900 mb-3">Profitability Metrics</h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600" title="The amount each unit sold contributes toward covering fixed costs.">Contribution Margin:</span>
-                            <span class="font-medium text-gray-900" id="beContribution">-</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600" title="The percentage of each sale that contributes to covering fixed costs.">Contribution Ratio:</span>
-                            <span class="font-medium text-gray-900" id="beRatio">-</span>
+                            <span title="Total revenue needed to reach break-even.">Sales Revenue:</span>
+                            <span class="text-xl font-bold" id="beSales">-</span>
                         </div>
                     </div>
                 </div>
@@ -898,58 +1034,31 @@ function loadBreakEvenCalculator(container) {
 }
 
 function calculateBreakEven() {
-  const fixedCosts = parseFormattedNumber(
-    document.getElementById("beFixedCosts").value
-  );
-  const variableCost = parseFormattedNumber(
-    document.getElementById("beVariableCost").value
-  );
-  const sellingPrice = parseFormattedNumber(
-    document.getElementById("beSellingPrice").value
-  );
+  const fixed = parseFormattedNumber(document.getElementById("beFixed").value);
+  const variable = parseFormattedNumber(document.getElementById("beVar").value);
+  const price = parseFormattedNumber(document.getElementById("bePrice").value);
 
   let valid = true;
-
-  if (!fixedCosts || fixedCosts < 0) {
-    showError("beFixedCosts", "Please enter valid fixed costs");
+  if (!fixed || fixed <= 0) {
+    showError("beFixed", "Enter fixed costs");
     valid = false;
   }
-  if (!variableCost || variableCost < 0) {
-    showError("beVariableCost", "Please enter valid variable cost");
+  if (!variable || variable < 0) {
+    showError("beVar", "Enter variable cost");
     valid = false;
   }
-  if (!sellingPrice || sellingPrice <= variableCost) {
-    showError(
-      "beSellingPrice",
-      "Selling price must be higher than variable cost"
-    );
+  if (!price || price <= variable) {
+    showError("bePrice", "Price must exceed variable cost");
     valid = false;
   }
-
   if (!valid) return;
 
-  // 1. Contribution Margin = Selling Price - Variable Cost
-  const contributionMargin = sellingPrice - variableCost;
+  const units = fixed / (price - variable);
+  const sales = units * price;
 
-  // 2. Breakeven Units = Fixed Costs / Contribution Margin
-  const breakevenUnits = fixedCosts / contributionMargin;
-
-  // 3. Breakeven Sales = Breakeven Units * Selling Price
-  const breakevenSales = breakevenUnits * sellingPrice;
-
-  // 4. Contribution Ratio = (Contribution Margin / Selling Price) * 100
-  const contributionRatio = (contributionMargin / sellingPrice) * 100;
-
-  // Update UI
-  document.getElementById("beUnits").textContent =
-    Math.ceil(breakevenUnits).toLocaleString() + " Units";
-  document.getElementById("beSalesAmount").textContent =
-    "₹" + formatNumber(Math.round(breakevenSales));
-  document.getElementById("beContribution").textContent =
-    "₹" + formatNumber(contributionMargin.toFixed(2));
-  document.getElementById("beRatio").textContent =
-    contributionRatio.toFixed(2) + "%";
-
+  document.getElementById("beUnits").textContent = Math.ceil(units) + " Units";
+  document.getElementById("beSales").textContent =
+    "₹" + formatNumber(sales.toFixed(2));
   document.getElementById("beResult").classList.remove("hidden");
 }
 
@@ -958,28 +1067,37 @@ function loadLumpsumInvestmentCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Investment (₹)</label>
-                    <input type="text" id="lumPrincipal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 1,00,000" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The one-time amount you want to invest.">Lumpsum Investment (₹)</label>
+                    <input type="text" id="lumPrincipal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 5,00,000" oninput="handleNumberInput(event); clearError('lumPrincipal')" onblur="formatInputNumber(event)">
+                    <p id="lumPrincipal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Expected Return (%)</label>
-                    <input type="text" id="lumRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="12">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Expected annual rate of return.">Expected Return (%)</label>
+                    <input type="text" id="lumRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 12" value="12" oninput="handleNumberInput(event); clearError('lumRate')">
+                    <p id="lumRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tenure (Years)</label>
-                    <input type="text" id="lumYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Investment duration in years.">Duration (Years)</label>
+                    <input type="text" id="lumYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 10" oninput="handleNumberInput(event); clearError('lumYears')">
+                    <p id="lumYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateLumpsum()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate Maturity</button>
+                <button onclick="calculateLumpsum()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Maturity</button>
             </div>
             <div id="lumResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white bg-indigo-700 mb-4">
-                    <span class="block text-sm opacity-80 mb-1" title="The total amount your one-time investment will grow to.">Maturity Value:</span>
-                    <span class="text-4xl font-bold" id="lumFinalVal">-</span>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-xl border">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600" title="The net profit earned on top of your investment.">Total Wealth Gained:</span>
-                        <span class="font-bold text-gray-900" id="lumProfit">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Lumpsum Result</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="Final wealth at the end of duration.">Maturity Value:</span>
+                            <span class="text-4xl font-bold" id="lumValue">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="Net interest/wealth gained.">Wealth Gained:</span>
+                            <span class="text-xl font-bold" id="lumWealth">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -988,18 +1106,30 @@ function loadLumpsumInvestmentCalculator(container) {
 }
 
 function calculateLumpsum() {
-  const P = parseFormattedNumber(document.getElementById("lumPrincipal").value);
-  const r =
-    parseFormattedNumber(document.getElementById("lumRate").value) / 100;
-  const n = parseFormattedNumber(document.getElementById("lumYears").value);
+  const principal = parseFormattedNumber(
+    document.getElementById("lumPrincipal").value
+  );
+  const rate = parseFloat(document.getElementById("lumRate").value) / 100;
+  const years = parseFloat(document.getElementById("lumYears").value);
 
-  if (!P || !r || !n) return;
+  let valid = true;
+  if (!principal) {
+    showError("lumPrincipal", "Enter principal amount");
+    valid = false;
+  }
+  if (!years) {
+    showError("lumYears", "Enter duration");
+    valid = false;
+  }
+  if (!valid) return;
 
-  const FV = P * Math.pow(1 + r, n);
-  document.getElementById("lumFinalVal").textContent =
-    "₹" + formatNumber(Math.round(FV));
-  document.getElementById("lumProfit").textContent =
-    "₹" + formatNumber(Math.round(FV - P));
+  const value = principal * Math.pow(1 + rate, years);
+  const wealth = value - principal;
+
+  document.getElementById("lumValue").textContent =
+    "₹" + formatNumber(Math.round(value));
+  document.getElementById("lumWealth").textContent =
+    "₹" + formatNumber(Math.round(wealth));
   document.getElementById("lumResult").classList.remove("hidden");
 }
 
@@ -1008,34 +1138,37 @@ function loadSTPCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Initial Amount in Source Fund (₹)</label>
-                    <input type="text" id="stpSource" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Initial lumpsum parked in source fund.">Source Fund Principal (₹)</label>
+                    <input type="text" id="stpSource" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 10,00,000" oninput="handleNumberInput(event); clearError('stpSource')" onblur="formatInputNumber(event)">
+                    <p id="stpSource-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Transfer Amount (₹)</label>
-                    <input type="text" id="stpAmount" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Amount to transfer to equity fund monthly.">Monthly Transfer (₹)</label>
+                    <input type="text" id="stpMonthly" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 50,000" oninput="handleNumberInput(event); clearError('stpMonthly')" onblur="formatInputNumber(event)">
+                    <p id="stpMonthly-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="input-group">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Source Fund Return (%)</label>
-                        <input type="text" id="stpSrcRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="5">
+                        <label class="block text-sm font-medium text-gray-700 mb-2" title="Assumed return for the source fund (usually lower).">Source ROI (%)</label>
+                        <input type="text" id="stpRateSrc" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="6">
                     </div>
                     <div class="input-group">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Fund Return (%)</label>
-                        <input type="text" id="stpTgtRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="12">
+                        <label class="block text-sm font-medium text-gray-700 mb-2" title="Assumed return for the target fund (usually higher).">Target ROI (%)</label>
+                        <input type="text" id="stpRateTgt" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" value="12">
                     </div>
                 </div>
-                <button onclick="calculateSTP()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate STP Strategy</button>
+                <button onclick="calculateSTP()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Analyze STP</button>
             </div>
             <div id="stpResult" class="hidden animate-fade-in">
-                <div class="bg-gray-50 rounded-xl p-6 space-y-4">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600" title="The final estimated value of the target fund after all transfers.">Target Fund Value:</span>
-                        <span class="font-bold text-green-600" id="stpFinalTgt">-</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600" title="The remaining balance in the source fund (if any) after the duration.">Remaining Source Balance:</span>
-                        <span class="font-bold text-gray-900" id="stpFinalSrc">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Maturity Summary</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="The final value of the equity (target) fund.">Target Fund Value:</span>
+                            <span class="text-4xl font-bold" id="stpTgtVal">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1044,33 +1177,36 @@ function loadSTPCalculator(container) {
 }
 
 function calculateSTP() {
-  let srcBal = parseFormattedNumber(document.getElementById("stpSource").value);
+  let source = parseFormattedNumber(document.getElementById("stpSource").value);
   const transfer = parseFormattedNumber(
-    document.getElementById("stpAmount").value
+    document.getElementById("stpMonthly").value
   );
-  const srcR =
-    parseFormattedNumber(document.getElementById("stpSrcRate").value) /
-    100 /
-    12;
-  const tgtR =
-    parseFormattedNumber(document.getElementById("stpTgtRate").value) /
-    100 /
-    12;
+  const rSrc =
+    parseFloat(document.getElementById("stpRateSrc").value) / 100 / 12;
+  const rTgt =
+    parseFloat(document.getElementById("stpRateTgt").value) / 100 / 12;
 
-  if (!srcBal || !transfer) return;
+  let valid = true;
+  if (!source) {
+    showError("stpSource", "Enter source principal");
+    valid = false;
+  }
+  if (!transfer) {
+    showError("stpMonthly", "Enter transfer amount");
+    valid = false;
+  }
+  if (!valid) return;
 
-  let tgtBal = 0;
-  const months = Math.min(600, Math.floor(srcBal / transfer)); // Duration based on funds available
+  let target = 0;
+  const months = Math.floor(source / transfer);
 
-  for (let m = 1; m <= months; m++) {
-    srcBal = (srcBal - transfer) * (1 + srcR);
-    tgtBal = (tgtBal + transfer) * (1 + tgtR);
+  for (let i = 0; i < months; i++) {
+    source = (source - transfer) * (1 + rSrc);
+    target = (target + transfer) * (1 + rTgt);
   }
 
-  document.getElementById("stpFinalTgt").textContent =
-    "₹" + formatNumber(Math.round(tgtBal));
-  document.getElementById("stpFinalSrc").textContent =
-    "₹" + formatNumber(Math.round(srcBal));
+  document.getElementById("stpTgtVal").textContent =
+    "₹" + formatNumber(Math.round(target));
   document.getElementById("stpResult").classList.remove("hidden");
 }
 function loadMutualFundReturnCalculator(container) {
@@ -1078,37 +1214,72 @@ function loadMutualFundReturnCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Amount Invested (₹)</label>
-                    <input type="text" id="mfInvested" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Total money put into the mutual fund.">Total Investment (₹)</label>
+                    <input type="text" id="mfInvested" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 1,00,000" oninput="handleNumberInput(event); clearError('mfInvested')" onblur="formatInputNumber(event)">
+                    <p id="mfInvested-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Market Value (₹)</label>
-                    <input type="text" id="mfCurrent" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" oninput="handleNumberInput(event)">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Current market value of your units.">Current Value (₹)</label>
+                    <input type="text" id="mfCurrent" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 1,65,000" oninput="handleNumberInput(event); clearError('mfCurrent')" onblur="formatInputNumber(event)">
+                    <p id="mfCurrent-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Investment Duration (Years)</label>
-                    <input type="text" id="mfDuration" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="e.g., 2.5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="Number of years invested.">Duration (Years)</label>
+                    <input type="text" id="mfYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" 
+                           placeholder="e.g., 5" oninput="handleNumberInput(event); clearError('mfYears')">
+                    <p id="mfYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateMF()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">Calculate CAGR</button>
+                <button onclick="calculateMFReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer cursor-pointer">Calculate Annualized Return</button>
             </div>
             <div id="mfResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white bg-indigo-700">
-                    <span class="block text-sm opacity-80 mb-1" title="The annual compounded growth rate of your mutual fund investment.">Annualized Return (CAGR):</span>
-                    <span class="text-4xl font-bold" id="mfCAGR">-</span>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700">
+                    <h3 class="text-lg font-semibold mb-4">Mutual Fund Return</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                            <span title="Compounded Annual Growth Rate.">CAGR:</span>
+                            <span class="text-4xl font-bold" id="mfCagr">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span title="Percentage gain on original investment.">Absolute Return:</span>
+                            <span class="text-xl font-bold" id="mfAbs">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     `;
 }
 
-function calculateMF() {
-  const P = parseFormattedNumber(document.getElementById("mfInvested").value);
-  const V = parseFormattedNumber(document.getElementById("mfCurrent").value);
-  const t = parseFloat(document.getElementById("mfDuration").value);
+function calculateMFReturn() {
+  const invested = parseFormattedNumber(
+    document.getElementById("mfInvested").value
+  );
+  const current = parseFormattedNumber(
+    document.getElementById("mfCurrent").value
+  );
+  const years = parseFloat(document.getElementById("mfYears").value);
 
-  if (!P || !V || !t) return;
+  let valid = true;
+  if (!invested) {
+    showError("mfInvested", "Enter invested amount");
+    valid = false;
+  }
+  if (!current) {
+    showError("mfCurrent", "Enter current value");
+    valid = false;
+  }
+  if (!years) {
+    showError("mfYears", "Enter duration");
+    valid = false;
+  }
+  if (!valid) return;
 
-  const cagr = (Math.pow(V / P, 1 / t) - 1) * 100;
-  document.getElementById("mfCAGR").textContent = cagr.toFixed(2) + "%";
+  const cagr = (Math.pow(current / invested, 1 / years) - 1) * 100;
+  const absReturn = ((current - invested) / invested) * 100;
+
+  document.getElementById("mfCagr").textContent = cagr.toFixed(2) + "%";
+  document.getElementById("mfAbs").textContent = absReturn.toFixed(2) + "%";
   document.getElementById("mfResult").classList.remove("hidden");
 }

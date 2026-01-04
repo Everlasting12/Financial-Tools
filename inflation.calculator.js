@@ -20,7 +20,7 @@ function loadInflationCalculator(container) {
                            placeholder="e.g., 10" oninput="handleNumberInput(event); clearError('infYears')" onblur="formatInputNumber(event)">
                     <p id="infYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateInflation()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Impact</button>
+                <button onclick="calculateInflation()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Impact</button>
             </div>
             <div id="infResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -96,7 +96,7 @@ function loadFutureValueCalculator(container) {
                            placeholder="e.g., 15" oninput="handleNumberInput(event); clearError('fvYears')" onblur="formatInputNumber(event)">
                     <p id="fvYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateFV()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Future Value</button>
+                <button onclick="calculateFV()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Future Value</button>
             </div>
             <div id="fvResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -166,7 +166,7 @@ function loadRealReturnCalculator(container) {
                            placeholder="e.g., 6" oninput="handleNumberInput(event); clearError('rrInflation')" onblur="formatInputNumber(event)">
                     <p id="rrInflation-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateRealReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Real Rate</button>
+                <button onclick="calculateRealReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Real Rate</button>
             </div>
             <div id="rrResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
@@ -241,7 +241,7 @@ function loadCostOfDelayCalculator(container) {
                            value="12" oninput="handleNumberInput(event); clearError('codRate')" onblur="formatInputNumber(event)">
                     <p id="codRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateCostOfDelay()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Calculate Cost of Delay</button>
+                <button onclick="calculateCostOfDelay()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Cost of Delay</button>
             </div>
             <div id="codResult" class="hidden animate-fade-in">
                 <div class="result-card rounded-xl p-6 text-white mb-4">
