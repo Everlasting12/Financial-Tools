@@ -754,38 +754,68 @@ function loadAmortizationScheduleCalculator(container) {
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="input-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Loan Amount (₹)</label>
-                    <input type="text" id="amrtPrincipal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
-                           placeholder="e.g., 10,00,000" oninput="handleNumberInput(event)" onblur="formatInputNumber(event)">
+                    <input type="text" id="amrtPrincipal" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 10,00,000" 
+                           oninput="handleNumberInput(event); clearError('amrtPrincipal')" 
+                           onblur="formatInputNumber(event)">
+                    <p id="amrtPrincipal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Annual Interest (%)</label>
-                    <input type="text" id="amrtRate" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
-                           placeholder="e.g., 9">
+                    <input type="text" id="amrtRate" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 8.5" 
+                           oninput="handleNumberInput(event); clearError('amrtRate')">
+                    <p id="amrtRate-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
                 <div class="input-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tenure (Years)</label>
-                    <input type="text" id="amrtYears" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg" 
-                           placeholder="e.g., 5">
+                    <input type="text" id="amrtYears" 
+                           class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                           placeholder="e.g., 15" 
+                           oninput="handleNumberInput(event); clearError('amrtYears')">
+                    <p id="amrtYears-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
             </div>
             
-            <button onclick="calculateAmortization()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold cursor-pointer">Generate Schedule</button>
+            <button onclick="calculateAmortization()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-4 rounded-lg font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider text-sm">
+                Generate Full Schedule
+            </button>
 
-            <div id="amrtResult" class="hidden animate-fade-in">
-                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-200">
-                    <table class="w-full text-sm text-left text-gray-600">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
-                            <tr>
-                                <th class="px-6 py-4">Year</th>
-                                <th class="px-6 py-4" title="Total amount paid in the year.">Total EMI</th>
-                                <th class="px-6 py-4" title="Amount that reduced your loan balance.">Principal</th>
-                                <th class="px-6 py-4" title="Amount paid to the bank as interest.">Interest</th>
-                                <th class="px-6 py-4" title="Loan balance remaining at the end of the year.">Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody id="amrtTableBody"></tbody>
-                    </table>
+            <div id="amrtResult" class="hidden animate-fade-in space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                        <p class="text-xs text-indigo-600 font-bold uppercase mb-1">Monthly EMI</p>
+                        <p class="text-2xl font-black text-indigo-900" id="amrtEmiVal">-</p>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
+                        <p class="text-xs text-purple-600 font-bold uppercase mb-1">Total Interest Payable</p>
+                        <p class="text-2xl font-black text-purple-900" id="amrtTotalInt">-</p>
+                    </div>
                 </div>
+
+                <div class="relative overflow-hidden bg-white rounded-2xl shadow-xl border border-gray-200">
+                    <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="sticky top-0 z-10 bg-gray-900 text-white">
+                                <tr>
+                                    <th class="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Year</th>
+                                    <th class="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Annual Payment</th>
+                                    <th class="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Principal (Dr)</th>
+                                    <th class="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Interest (Cr)</th>
+                                    <th class="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Ending Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amrtTableBody" class="divide-y divide-gray-100">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <p class="text-center text-[10px] text-gray-400 uppercase tracking-tighter italic">
+                    Values rounded to the nearest rupee. Actual bank schedules may vary based on day-count conventions.
+                </p>
             </div>
         </div>
     `;
@@ -802,13 +832,27 @@ function calculateAmortization() {
     document.getElementById("amrtYears").value
   );
 
-  if (!P || !annualRate || !years) return;
+  let isValid = true;
+  if (!P || P <= 0) {
+    showError("amrtPrincipal", "Enter loan amount");
+    isValid = false;
+  }
+  if (!annualRate || annualRate <= 0) {
+    showError("amrtRate", "Enter interest rate");
+    isValid = false;
+  }
+  if (!years || years <= 0) {
+    showError("amrtYears", "Enter tenure");
+    isValid = false;
+  }
+  if (!isValid) return;
 
   const r = annualRate / 12 / 100;
   const n = years * 12;
   const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
   let balance = P;
+  let totalInterest = 0;
   let html = "";
 
   for (let year = 1; year <= years; year++) {
@@ -821,26 +865,37 @@ function calculateAmortization() {
       yearlyInterest += interest;
       yearlyPrincipal += principal;
       balance -= principal;
+      totalInterest += interest;
     }
 
     html += `
-            <tr class="border-b hover:bg-gray-50">
-                <td class="px-6 py-4 font-medium text-gray-900">${year}</td>
-                <td class="px-6 py-4">₹${formatNumber(
+            <tr class="group hover:bg-indigo-50/50 transition-colors ${
+              year % 2 === 0 ? "bg-gray-50/30" : "bg-white"
+            }">
+                <td class="px-6 py-4 font-black text-gray-400 group-hover:text-indigo-600 transition-colors">${year}</td>
+                <td class="px-6 py-4 text-gray-600 font-medium">₹${formatNumber(
                   (emi * 12).toFixed(0)
                 )}</td>
-                <td class="px-6 py-4 text-green-600">₹${formatNumber(
+                <td class="px-6 py-4 text-emerald-600 font-semibold">₹${formatNumber(
                   yearlyPrincipal.toFixed(0)
                 )}</td>
-                <td class="px-6 py-4 text-red-600">₹${formatNumber(
+                <td class="px-6 py-4 text-rose-500">₹${formatNumber(
                   yearlyInterest.toFixed(0)
                 )}</td>
-                <td class="px-6 py-4 font-bold">₹${formatNumber(
-                  Math.max(0, balance).toFixed(0)
-                )}</td>
+                <td class="px-6 py-4">
+                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-bold text-xs">
+                        ₹${formatNumber(Math.max(0, balance).toFixed(0))}
+                    </span>
+                </td>
             </tr>
         `;
   }
+
+  // Update Summary Cards
+  document.getElementById("amrtEmiVal").textContent =
+    "₹" + formatNumber(emi.toFixed(0));
+  document.getElementById("amrtTotalInt").textContent =
+    "₹" + formatNumber(totalInterest.toFixed(0));
 
   document.getElementById("amrtTableBody").innerHTML = html;
   document.getElementById("amrtResult").classList.remove("hidden");

@@ -155,31 +155,43 @@ function loadRealReturnCalculator(container) {
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Nominal Return Rate (%)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The interest rate before taking inflation into account.">Nominal Return Rate (%)</label>
                     <input type="text" id="rrNominal" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
                            placeholder="e.g., 10 (Bank/MF Return)" oninput="handleNumberInput(event); clearError('rrNominal')" onblur="formatInputNumber(event)">
                     <p id="rrNominal-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
+
                 <div class="input-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Inflation Rate (%)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" title="The rate at which the general level of prices for goods and services is rising.">Inflation Rate (%)</label>
                     <input type="text" id="rrInflation" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
                            placeholder="e.g., 6" oninput="handleNumberInput(event); clearError('rrInflation')" onblur="formatInputNumber(event)">
                     <p id="rrInflation-error" class="hidden text-red-500 text-sm mt-1"></p>
                 </div>
-                <button onclick="calculateRealReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">Calculate Real Rate</button>
+
+                <button onclick="calculateRealReturn()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all cursor-pointer">
+                    Calculate Real Rate
+                </button>
             </div>
+
             <div id="rrResult" class="hidden animate-fade-in">
-                <div class="result-card rounded-xl p-6 text-white mb-4">
-                    <h3 class="text-lg font-semibold mb-4">Adjusted Return</h3>
+                <div class="result-card rounded-xl p-6 text-white mb-4 bg-gradient-to-br from-indigo-600 to-purple-700 shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4 border-b border-white border-opacity-20 pb-2">Adjusted Return</h3>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center pt-3 border-b border-white border-opacity-30 pb-3">
+                        <div class="flex justify-between items-center pt-3">
                             <span title="The true growth rate of your money, adjusted for price increases.">Real Rate of Return:</span>
                             <span class="text-4xl font-bold" id="rrFinal">-</span>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-6 text-sm">
-                    <p class="text-gray-600 italic">This reflects the actual growth in your purchasing power.</p>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-xl">
+                    <div class="flex">
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                This reflects the <strong>actual growth</strong> in your purchasing power. If this number is negative, your money is losing value despite the nominal gains.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,30 +199,50 @@ function loadRealReturnCalculator(container) {
 }
 
 function calculateRealReturn() {
-  const nominal = parseFormattedNumber(
-    document.getElementById("rrNominal").value
-  );
-  const inflation = parseFormattedNumber(
-    document.getElementById("rrInflation").value
-  );
+  const nominalInput = document.getElementById("rrNominal");
+  const inflationInput = document.getElementById("rrInflation");
 
-  let valid = true;
-  if (nominal === null) {
-    showError("rrNominal", "Enter valid return");
-    valid = false;
-  }
-  if (inflation === null) {
-    showError("rrInflation", "Enter valid inflation");
-    valid = false;
-  }
-  if (!valid) return;
+  const nominal = parseFormattedNumber(nominalInput.value);
+  const inflation = parseFormattedNumber(inflationInput.value);
 
-  // Formula: ((1 + nominal) / (1 + inflation)) - 1
+  let isValid = true;
+
+  // Validation
+  if (nominalInput.value.trim() === "" || isNaN(nominal)) {
+    showError("rrNominal", "Please enter a valid nominal return rate");
+    isValid = false;
+  }
+
+  if (inflationInput.value.trim() === "" || isNaN(inflation)) {
+    showError("rrInflation", "Please enter a valid inflation rate");
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  // Logic: ((1 + nominal) / (1 + inflation)) - 1
   const n = nominal / 100;
   const i = inflation / 100;
+
+  // Check for division by zero (inflation = -100%)
+  if (i <= -1) {
+    showError("rrInflation", "Inflation rate is invalid for this calculation");
+    return;
+  }
+
   const realRate = ((1 + n) / (1 + i) - 1) * 100;
 
-  document.getElementById("rrFinal").textContent = realRate.toFixed(2) + "%";
+  // Update UI
+  const resultElement = document.getElementById("rrFinal");
+  resultElement.textContent = realRate.toFixed(2) + "%";
+
+  // Visual feedback for negative real returns
+  if (realRate < 0) {
+    resultElement.classList.add("text-red-200");
+  } else {
+    resultElement.classList.remove("text-red-200");
+  }
+
   document.getElementById("rrResult").classList.remove("hidden");
 }
 function loadCostOfDelayCalculator(container) {
